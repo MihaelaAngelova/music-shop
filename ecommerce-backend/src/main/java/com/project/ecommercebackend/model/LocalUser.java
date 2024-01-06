@@ -31,15 +31,28 @@ public class LocalUser {
     private String lastName;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Address> addresses = new ArrayList<>();
 
-    public List<Address> getAddresses() {
-        return addresses;
+
+    @Column(name = "is_admin", nullable = false)
+    private Boolean isAdmin = false;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
+    private Address address;
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
     }
 
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getLastName() {

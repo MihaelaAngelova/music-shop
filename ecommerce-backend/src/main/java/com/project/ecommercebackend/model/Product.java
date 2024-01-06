@@ -13,11 +13,8 @@ public class Product {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "short_description", nullable = false)
-    private String shortDescription;
-
-    @Column(name = "long_description")
-    private String longDescription;
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @Column(name = "price", nullable = false)
     private Double price;
@@ -53,20 +50,12 @@ public class Product {
         this.price = price;
     }
 
-    public String getLongDescription() {
-        return longDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLongDescription(String longDescription) {
-        this.longDescription = longDescription;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
+    public void setShortDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {
