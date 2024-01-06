@@ -1,6 +1,7 @@
 package com.project.ecommercebackend.service;
 
 import com.project.ecommercebackend.model.Product;
+import com.project.ecommercebackend.model.ProductType;
 import com.project.ecommercebackend.model.dao.ProductDAO;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,13 @@ public class ProductService {
 
     public List<Product> getProducts() {
         return productDAO.findAll();
+    }
+
+    public List<Product> getProductsByType(ProductType productType) {
+        return productDAO
+                .findAll()
+                .stream()
+                .filter(product -> productType == product.getType())
+                .toList();
     }
 }
