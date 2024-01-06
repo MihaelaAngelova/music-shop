@@ -27,4 +27,14 @@ public class ProductService {
                 .filter(product -> productType == product.getType())
                 .toList();
     }
+
+    public List<Product> searchProducts(String input) {
+        return productDAO
+                .findAll()
+                .stream()
+                .filter(product ->
+                        product.getDescription().toLowerCase().contains(input.toLowerCase())
+                                || product.getName().toLowerCase().contains(input.toLowerCase()))
+                .toList();
+    }
 }
