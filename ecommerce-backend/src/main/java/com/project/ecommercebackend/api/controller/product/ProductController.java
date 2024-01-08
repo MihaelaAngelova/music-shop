@@ -64,4 +64,24 @@ public class ProductController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    ResponseEntity deleteProduct(@AuthenticationPrincipal LocalUser user, @PathVariable int id) {
+        if(user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        UserRole userRole = user.getUserRole();
+        if(userRole.equals(UserRole.ADMINISTRATOR)) {
+            try {
+                productService.deleteProduct(id);
+                return ResponseEntity.ok().build();
+            } catch(Exception ex) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+
+    }
+
 }

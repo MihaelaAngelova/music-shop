@@ -67,4 +67,9 @@ public class ProductService {
         copyProductData(productBody, product);
         return productDAO.save(product);
     }
+
+    public void deleteProduct(int productID) {
+        Product product = getProduct(productID);
+        productDAO.delete(product);
+    }
 }
