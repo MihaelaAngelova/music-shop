@@ -1,9 +1,11 @@
 package com.project.ecommercebackend.service;
 
 import com.project.ecommercebackend.api.model.LoginBody;
+import com.project.ecommercebackend.api.model.ProductBody;
 import com.project.ecommercebackend.api.model.RegistrationBody;
 import com.project.ecommercebackend.exception.UserAlreadyExistsException;
 import com.project.ecommercebackend.model.LocalUser;
+import com.project.ecommercebackend.model.Product;
 import com.project.ecommercebackend.model.UserRole;
 import com.project.ecommercebackend.model.dao.LocalUserDAO;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,15 @@ public class UserService {
             if(encryptionService.verifyPassword(loginBody.getPassword(), user.getPassword())) {
                 return jwtService.generateJWT(user);
             }
+        }
+        return null;
+    }
+
+    public UserRole getUserRole(String jwt) {
+        String username = jwtService.getUsername(jwt);
+        Optional<LocalUser> opUser = localUserDAO.findByUsernameIgnoreCase(username);
+        if(opUser.isPresent()) {
+            return opUser.get().getUserRole();
         }
         return null;
     }
