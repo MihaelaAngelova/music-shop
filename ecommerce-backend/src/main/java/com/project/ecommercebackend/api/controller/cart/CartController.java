@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cart")
@@ -29,6 +30,7 @@ public class CartController {
         if (cart == null) {
             cart = new ArrayList<>();
         }
+        cart = new ArrayList<>(cart);
         cart.add(productQuantityPair);
         session.setAttribute(CART, cart);
         return ResponseEntity.ok().build();
@@ -52,9 +54,15 @@ public class CartController {
         boolean productExists = cart.stream()
                 .anyMatch(pair -> pair.getProductId() == id);
         if(productExists) {
-            cart = cart.stream().filter(pair -> pair.getProductId() != id).toList();
+            cart = cart.stream().filter(pair -> pair.getProductId() != id).collect(Collectors.toList());
             session.setAttribute(CART, cart);
             return ResponseEntity.ok().build();
         } else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @DeleteMapping("/all")
+    public ResponseEntity deleteCart(HttpSession session) {
+        session.setAttribute(CART, new ArrayList<>());
+        return ResponseEntity.ok().build();
     }
 }
