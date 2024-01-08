@@ -50,11 +50,21 @@ public class ProductService {
 
     public Product createProduct(ProductBody productBody) {
         Product product = new Product();
+        copyProductData(productBody, product);
+        return productDAO.save(product);
+    }
+
+    private static void copyProductData(ProductBody productBody, Product product) {
         product.setName(productBody.getName());
         product.setDescription(productBody.getDescription());
         product.setPrice(productBody.getPrice());
         product.setType(productBody.getType());
         product.setQuantity(productBody.getQuantity());
+    }
+
+    public Product editProduct(ProductBody productBody, int productID) {
+        Product product = getProduct(productID);
+        copyProductData(productBody, product);
         return productDAO.save(product);
     }
 }

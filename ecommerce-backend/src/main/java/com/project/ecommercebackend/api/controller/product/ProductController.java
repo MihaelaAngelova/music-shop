@@ -49,4 +49,19 @@ public class ProductController {
         }
     }
 
+    @PutMapping("/{id}")
+    ResponseEntity<Product> putProduct(@Valid @RequestBody ProductBody productBody,
+                                       @AuthenticationPrincipal LocalUser user, @PathVariable int id) {
+        if(user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        UserRole userRole = user.getUserRole();
+        if(userRole.equals(UserRole.ADMINISTRATOR)) {
+            Product response = productService.editProduct(productBody, id);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
 }
