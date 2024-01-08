@@ -5,6 +5,7 @@ import com.project.ecommercebackend.model.ProductType;
 import com.project.ecommercebackend.model.dao.ProductDAO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,5 +37,11 @@ public class ProductService {
                         product.getDescription().toLowerCase().contains(input.toLowerCase())
                                 || product.getName().toLowerCase().contains(input.toLowerCase()))
                 .toList();
+    }
+
+    public Product getProduct(int id) {
+        List<Long> ids = new ArrayList<>();
+        ids.add(new Long(id));
+        return productDAO.findAllById(ids).get(0);
     }
 }

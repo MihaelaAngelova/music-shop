@@ -4,6 +4,7 @@ import com.project.ecommercebackend.api.model.LoginBody;
 import com.project.ecommercebackend.api.model.RegistrationBody;
 import com.project.ecommercebackend.exception.UserAlreadyExistsException;
 import com.project.ecommercebackend.model.LocalUser;
+import com.project.ecommercebackend.model.UserRole;
 import com.project.ecommercebackend.model.dao.LocalUserDAO;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class UserService {
         user.setFirstName(registrationBody.getFirstName());
         user.setLastName(registrationBody.getLastName());
         user.setUsername(registrationBody.getUsername());
+        user.setUserRole(UserRole.USER);
         user.setPassword(encryptionService.encryptPassword(registrationBody.getPassword()));
         return localUserDAO.save(user);
     }

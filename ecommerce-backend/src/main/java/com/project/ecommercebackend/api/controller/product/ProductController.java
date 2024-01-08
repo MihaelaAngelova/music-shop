@@ -2,9 +2,10 @@ package com.project.ecommercebackend.api.controller.product;
 
 import com.project.ecommercebackend.model.Product;
 import com.project.ecommercebackend.service.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,8 +19,14 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
-    List<Product> getProducts() {
-        return productService.getProducts();
+    @GetMapping("/{id}")
+    ResponseEntity<Product> getProduct(@PathVariable int id) {
+        try{
+            Product response = productService.getProduct(id);
+            return ResponseEntity.ok(response);
+        } catch(Exception ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
+
 }

@@ -30,21 +30,19 @@ public class LocalUser {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @JsonIgnore
-
-
-    @Column(name = "is_admin", nullable = false)
-    private Boolean isAdmin = false;
-
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
     private Address address;
 
-    public Boolean getIsAdmin() {
-        return isAdmin;
+    @Enumerated
+    @Column(name = "user_role", nullable = false)
+    private UserRole userRole;
+
+    public UserRole getUserRole() {
+        return userRole;
     }
 
-    public void setIsAdmin(Boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     public Address getAddress() {
