@@ -80,8 +80,6 @@ public class ProductController {
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-
-
     }
 
 }

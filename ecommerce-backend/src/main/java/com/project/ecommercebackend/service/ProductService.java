@@ -72,4 +72,8 @@ public class ProductService {
         Product product = getProduct(productID);
         productDAO.delete(product);
     }
+
+    public boolean decreaseQuantity(int productId, int quantity) {
+        return getProduct(productId).getQuantity() - quantity >= 0;
+    }
 }
