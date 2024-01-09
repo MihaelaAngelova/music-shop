@@ -1,10 +1,17 @@
 package com.project.ecommercebackend.api.controller.cart;
 
+import com.project.ecommercebackend.api.model.GuestBody;
 import com.project.ecommercebackend.api.model.ProductQuantityPair;
+import com.project.ecommercebackend.model.Address;
+import com.project.ecommercebackend.model.LocalUser;
+import com.project.ecommercebackend.model.WebOrder;
+import com.project.ecommercebackend.model.OrderElement;
+import com.project.ecommercebackend.service.OrderService;
 import com.project.ecommercebackend.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,9 +23,11 @@ import java.util.stream.Collectors;
 public class CartController {
     private final static String CART = "Cart";
     private ProductService productService;
+    private OrderService orderService;
 
-    public CartController(ProductService productService) {
+    public CartController(ProductService productService, OrderService orderService) {
         this.productService = productService;
+        this.orderService = orderService;
     }
 
     @PostMapping("/add")
@@ -65,4 +74,34 @@ public class CartController {
         session.setAttribute(CART, new ArrayList<>());
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/payment")
+    public ResponseEntity<WebOrder> payment(@AuthenticationPrincipal LocalUser user,
+                                            HttpSession session,
+                                            @RequestBody GuestBody guestBody) {
+        String email;
+        Address address;
+
+        if(user != null) {
+            email = user.getEmail();
+            address = user.getAddress();
+        } else {
+            email = guestBody.getEmail();
+            address = new Address(guestBody.getAddress(), guestBody.getCity(), guestBody.getCountry());
+        }
+
+        List<ProductQuantityPair> cart = (List<ProductQuantityPair>) session.getAttribute(CART);
+        if(cart == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } else {
+            try {
+                WebOrder response = orderService.saveOrder(email, address, cart);
+                session.setAttribute(CART, new ArrayList<>());
+                return ResponseEntity.ok(response);
+            } catch (Exception ex) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+        }
+    }
+
 }

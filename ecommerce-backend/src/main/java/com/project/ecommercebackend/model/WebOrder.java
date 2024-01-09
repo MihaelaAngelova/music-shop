@@ -13,35 +13,51 @@ public class WebOrder {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private LocalUser user;
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<WebOrderQuantities> quantities = new ArrayList<>();
+    private List<OrderElement> orderElements = new ArrayList<>();
 
-    public List<WebOrderQuantities> getQuantities() {
-        return quantities;
+    @Column(name = "email", nullable = false, length = 100)
+    private String email;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address address;
+
+    public WebOrder() {
     }
 
-    public void setQuantities(List<WebOrderQuantities> quantities) {
-        this.quantities = quantities;
+    public Address getAddress() {
+        return address;
     }
 
-    public LocalUser getUser() {
-        return user;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public void setUser(LocalUser user) {
-        this.user = user;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<OrderElement> getQuantities() {
+        return orderElements;
+    }
+
+    public void setOrderElements(List<OrderElement> orderElements) {
+        this.orderElements = orderElements;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public WebOrder(List<OrderElement> orderElements, String email, Address address, Long id) {
+        this.orderElements = orderElements;
+        this.email = email;
+        this.address = address;
         this.id = id;
     }
-
 }

@@ -21,9 +21,10 @@ public class Address {
     private String country;
 
     @JsonIgnore
-    @OneToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private LocalUser user;
+
 
     public LocalUser getUser() {
         return user;
@@ -65,4 +66,12 @@ public class Address {
         this.id = id;
     }
 
+    public Address(String address, String city, String country) {
+        this.address = address;
+        this.city = city;
+        this.country = country;
+    }
+
+    public Address() {
+    }
 }
