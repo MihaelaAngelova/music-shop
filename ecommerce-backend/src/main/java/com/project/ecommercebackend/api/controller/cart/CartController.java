@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cart")
+@CrossOrigin(origins = "*")
 public class CartController {
     private final static String CART = "Cart";
     private ProductService productService;

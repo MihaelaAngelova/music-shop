@@ -1,0 +1,16 @@
+body {
+    background-color: #f1f7ee;
+}
+
+.product-cell {
+    border: 1px solid #92aa83;
+    background-color: #e0edc5;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.btn-custom {
+    background-color: #b0bea9;
+    color: #fff;
+}
