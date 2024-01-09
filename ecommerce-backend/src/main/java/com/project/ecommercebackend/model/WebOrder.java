@@ -13,7 +13,7 @@ public class WebOrder {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderElement> orderElements = new ArrayList<>();
 
     @Column(name = "email", nullable = false, length = 100)
@@ -54,10 +54,13 @@ public class WebOrder {
         return id;
     }
 
-    public WebOrder(List<OrderElement> orderElements, String email, Address address, Long id) {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public WebOrder(List<OrderElement> orderElements, String email, Address address) {
         this.orderElements = orderElements;
         this.email = email;
         this.address = address;
-        this.id = id;
     }
 }
