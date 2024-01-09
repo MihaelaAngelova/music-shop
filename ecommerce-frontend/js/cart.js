@@ -1,7 +1,5 @@
-// Fetch and display cart items when the page loads
 fetchCartItems();
 
-// Function to fetch and display cart items
 function fetchCartItems() {
     axios.get('http://localhost:8080/cart')
         .then(response => {
@@ -12,11 +10,9 @@ function fetchCartItems() {
         });
 }
 
-// Function to display cart items
 function displayCartItems(cartItems) {
     const cartItemsContainer = document.getElementById('cartItems');
-    cartItemsContainer.innerHTML = '';
-
+    console.log(cartItems);
     if (cartItems.length === 0) {
         cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
         return;
@@ -25,7 +21,7 @@ function displayCartItems(cartItems) {
     cartItems.forEach(item => {
         const cartItemElement = document.createElement('div');
         cartItemElement.innerHTML = `
-                <p>${item.productName} - Quantity: ${item.quantity}</p>
+                <p>${item.name} - Quantity: ${item.quantity}</p>
                 <button class="btn btn-danger" onclick="removeFromCart(${item.productId})">Remove</button>
                 <hr>
             `;
@@ -33,11 +29,9 @@ function displayCartItems(cartItems) {
     });
 }
 
-// Function to remove item from the cart
 function removeFromCart(productId) {
     axios.delete(`http://localhost:8080/cart/${productId}`)
         .then(response => {
-            // Refresh the cart items after removal
             fetchCartItems();
         })
         .catch(error => {
@@ -45,8 +39,6 @@ function removeFromCart(productId) {
         });
 }
 
-// Function to initiate checkout
 function checkout() {
-    // Implement the logic to initiate checkout (optional)
     alert('Initiating checkout...');
 }

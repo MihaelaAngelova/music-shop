@@ -14,3 +14,7 @@ body {
     background-color: #b0bea9;
     color: #fff;
 }
+
+.inputCell {
+    width: 40pt;
+}
