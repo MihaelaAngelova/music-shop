@@ -91,20 +91,16 @@ public class CartController {
         }
 
         List<ProductQuantityPair> cart = (List<ProductQuantityPair>) session.getAttribute(CART);
-        if(cart == null) {
+        if(cart == null || cart.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } else {
-            //try {
-                WebOrder response = orderService.saveOrder(email, address, cart);
-                if (response == null) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-                }
+            WebOrder response = orderService.saveOrder(email, address, cart);
+            if (response == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
 
-                session.setAttribute(CART, new ArrayList<>());
-                return ResponseEntity.ok(response);
-            //} catch (Exception ex) {
-                //return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-            //}
+            session.setAttribute(CART, new ArrayList<>());
+            return ResponseEntity.ok(response);
         }
     }
 

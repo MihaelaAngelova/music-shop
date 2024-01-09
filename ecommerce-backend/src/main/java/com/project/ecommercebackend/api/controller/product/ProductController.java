@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -26,12 +28,10 @@ public class ProductController {
 
     @GetMapping("/{id}")
     ResponseEntity<Product> getProduct(@PathVariable int id) {
-        try{
-            Product response = productService.getProduct(id);
-            return ResponseEntity.ok(response);
-        } catch(Exception ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        Optional<Product> productMaybe = productService.getProduct(id);
+        return productMaybe
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping
@@ -57,8 +57,10 @@ public class ProductController {
         }
         UserRole userRole = user.getUserRole();
         if(userRole.equals(UserRole.ADMINISTRATOR)) {
-            Product response = productService.editProduct(productBody, id);
-            return ResponseEntity.ok(response);
+            Optional<Product> product = productService.editProduct(productBody, id);
+            return product
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }

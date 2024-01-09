@@ -42,10 +42,8 @@ public class ProductService {
                 .toList();
     }
 
-    public Product getProduct(int id) {
-        List<Long> ids = new ArrayList<>();
-        ids.add(new Long(id));
-        return productDAO.findAllById(ids).get(0);
+    public Optional<Product> getProduct(int id) {
+        return productDAO.findById((long)id);
     }
 
     public Product createProduct(ProductBody productBody) {
@@ -62,18 +60,21 @@ public class ProductService {
         product.setQuantity(productBody.getQuantity());
     }
 
-    public Product editProduct(ProductBody productBody, int productID) {
-        Product product = getProduct(productID);
-        copyProductData(productBody, product);
-        return productDAO.save(product);
+    public Optional<Product> editProduct(ProductBody productBody, int productID) {
+        return productDAO.findById((long)productID)
+                .map(product -> {
+                    copyProductData(productBody, product);
+                    return productDAO.save(product);
+                });
     }
 
     public void deleteProduct(int productID) {
-        Product product = getProduct(productID);
-        productDAO.delete(product);
+        productDAO.deleteById((long)productID);
     }
 
     public boolean decreaseQuantity(int productId, int quantity) {
-        return getProduct(productId).getQuantity() - quantity >= 0;
+        return productDAO.findById((long)productId)
+                .map(p -> p.getQuantity() - quantity >= 0)
+                .orElse(false);
     }
 }
