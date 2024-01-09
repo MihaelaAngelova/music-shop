@@ -33,6 +33,7 @@ function createProductCard(product) {
             <div class="card-body">
                 <h5 class="card-title">${product.name}</h5>
                 <p class="card-text">${product.description}</p>
+                <p class="card-text">Price: ${product.price}lv.</p>
                 <a href="#" class="btn btn-custom">View Details</a>
             </div>
         </div>
