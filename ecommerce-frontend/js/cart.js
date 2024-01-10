@@ -1,6 +1,7 @@
 fetchCartItems();
 
 function fetchCartItems() {
+    axios.defaults.withCredentials = true;
     axios.get('http://localhost:8080/cart')
         .then(response => {
             displayCartItems(response.data);
@@ -12,24 +13,43 @@ function fetchCartItems() {
 
 function displayCartItems(cartItems) {
     const cartItemsContainer = document.getElementById('cartItems');
-    console.log(cartItems);
     if (cartItems.length === 0) {
         cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
         return;
     }
 
     cartItems.forEach(item => {
-        const cartItemElement = document.createElement('div');
-        cartItemElement.innerHTML = `
-                <p>${item.name} - Quantity: ${item.quantity}</p>
-                <button class="btn btn-danger" onclick="removeFromCart(${item.productId})">Remove</button>
-                <hr>
-            `;
-        cartItemsContainer.appendChild(cartItemElement);
+        axios.defaults.withCredentials = true;
+        axios.get(`http://localhost:8080/products/${item.productId}`)
+            .then(response => {
+                const productDetails = response.data;
+                const cartItemElement = createCartItemElement(productDetails, item.quantity);
+                cartItemsContainer.appendChild(cartItemElement);
+            })
+            .catch(error => {
+                console.error('Error fetching product details:', error);
+            });
     });
 }
 
+function createCartItemElement(product, quantity) {
+    const cartItemElement = document.createElement('div');
+    cartItemElement.innerHTML = `
+        <div class="card product-cell">
+            <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${product.description}</p>
+                <p class="card-text">Price: ${product.price}lv. - Quantity: ${quantity}</p>
+                <button class="btn btn-danger" onclick="removeFromCart(${product.id})">Remove</button>
+            </div>
+            <hr>
+        </div>
+    `;
+    return cartItemElement;
+}
+
 function removeFromCart(productId) {
+    axios.defaults.withCredentials = true;
     axios.delete(`http://localhost:8080/cart/${productId}`)
         .then(response => {
             fetchCartItems();
