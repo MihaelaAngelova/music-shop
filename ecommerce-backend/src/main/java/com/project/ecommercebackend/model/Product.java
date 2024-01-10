@@ -26,6 +26,9 @@ public class Product {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
+    @Column(name = "image_path", nullable = false)
+    private String imagePath;
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -72,6 +75,14 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
 }

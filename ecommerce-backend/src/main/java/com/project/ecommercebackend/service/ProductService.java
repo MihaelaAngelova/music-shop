@@ -58,6 +58,7 @@ public class ProductService {
         product.setPrice(productBody.getPrice());
         product.setType(productBody.getType());
         product.setQuantity(productBody.getQuantity());
+        product.setImagePath(product.getImagePath());
     }
 
     public Optional<Product> editProduct(ProductBody productBody, int productID) {

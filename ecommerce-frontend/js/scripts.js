@@ -6,9 +6,10 @@ function createProductCard(product) {
 
     card.innerHTML = `
         <div class="card product-cell">
-<!--            <img src="${product.imageUrl}" class="card-img-top" alt="${product.title}">-->
+<!--            <img src="${product.imagePath}" class="card-img-top" alt="${product.title}">-->
             <div class="card-body">
                 <h5 class="card-title">${product.name}</h5>
+                <img src="${product.imagePath}" alt="${product.name}" style="max-width: 100%; max-height: 100%;"/>
                 <p class="card-text">${product.description}</p>
                 <p class="card-text">Price: ${product.price}lv.</p>
             </div>
