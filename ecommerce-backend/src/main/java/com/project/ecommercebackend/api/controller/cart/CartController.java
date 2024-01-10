@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:63342", allowCredentials = "true")
 public class CartController {
     private final static String CART = "Cart";
     private ProductService productService;
@@ -93,7 +93,7 @@ public class CartController {
 
         List<ProductQuantityPair> cart = (List<ProductQuantityPair>) session.getAttribute(CART);
         if(cart == null || cart.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
             WebOrder response = orderService.saveOrder(email, address, cart);
             if (response == null) {
@@ -104,5 +104,4 @@ public class CartController {
             return ResponseEntity.ok(response);
         }
     }
-
 }

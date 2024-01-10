@@ -2,11 +2,10 @@ const productListContainer = document.getElementById('productList');
 
 function createProductCard(product) {
     const card = document.createElement("div");
-    card.className = "col-md-4 mb-4";
+    card.className = "col-md-3 mb-4";
 
     card.innerHTML = `
         <div class="card product-cell">
-<!--            <img src="${product.imagePath}" class="card-img-top" alt="${product.title}">-->
             <div class="card-body">
                 <h5 class="card-title">${product.name}</h5>
                 <img src="${product.imagePath}" alt="${product.name}" style="max-width: 100%; max-height: 100%;"/>
@@ -24,12 +23,21 @@ function createProductCard(product) {
 }
 
 function displayProducts(products) {
-    products.forEach(p => {
-        const productCard = createProductCard(p);
-        productListContainer.appendChild(productCard);
+    const productListContainer = document.getElementById('productList');
+    productListContainer.innerHTML = ''; // Clear existing content
+
+    let row;
+    products.forEach((product, index) => {
+        if (index % 4 === 0) {
+            // Start a new row for every 4th product
+            row = document.createElement("div");
+            row.className = "row";
+            productListContainer.appendChild(row);
+        }
+
+        const productCard = createProductCard(product);
+        row.appendChild(productCard);
     });
 }
-
-
 
 export {displayProducts}

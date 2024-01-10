@@ -18,3 +18,7 @@ body {
 .inputCell {
     width: 40pt;
 }
+
+.nav-link-page.current {
+    color: #198754;
+}
