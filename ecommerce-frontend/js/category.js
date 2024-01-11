@@ -25,15 +25,6 @@ function switchTitle() {
         default: str = "Invalid category..";
     }
     document.getElementById("pageTitle").innerHTML = str;
-    const links = document.querySelectorAll('.nav-link-page');
-    links.forEach(link => link.classList.remove('current'));
-
-    // Add 'current' class to the current page link
-    const currentPageLink = document.querySelector(`.nav-link-page[href="category.html?id=${catId}"]`);
-    if (currentPageLink) {
-        currentPageLink.classList.add('current');
-    }
-
 }
 
 switchTitle();

@@ -19,6 +19,6 @@ body {
     width: 40pt;
 }
 
-.nav-link-page.current {
+.current {
     color: #198754;
 }
