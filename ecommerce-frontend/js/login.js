@@ -15,17 +15,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
         axios.post('http://localhost:8080/auth/login', loginBody)
             .then(response => {
-                console.log("testt");
                 if(response.data.jwt) {
                     document.cookie = `jwt=${response.data.jwt}; path=/`;
-                    window.location.href = "index.html";
+                    return axios.get('http://localhost:8080/auth/me', {
+                        headers: {
+                            Authorization: `Bearer ${response.data.jwt}`
+                        }
+                    });
                 } else {
                     console.log('Invalid email or password:');
                 }
             })
+            .then(response => {
+                const firstName = response.data.firstName;
+                const lastName = response.data.lastName;
+                const fullName = firstName + ' ' + lastName;
+                console.log(response.data);
+                document.cookie = `nameCookie=${fullName}; path=/`;
+                window.location.href = "index.html";
+            })
             .catch(error => {
                 console.log("Error during login:", error);
             });
-
     });
 });
