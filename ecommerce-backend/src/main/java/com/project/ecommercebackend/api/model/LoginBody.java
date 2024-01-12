@@ -6,13 +6,13 @@ import jakarta.validation.constraints.NotNull;
 public class LoginBody {
     @NotNull
     @NotBlank
-    private String username;
+    private String email;
     @NotNull
     @NotBlank
     private String password;
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {

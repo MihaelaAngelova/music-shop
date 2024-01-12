@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-        if (password.value.length < 8 || !passwordRegex.test(password.value)) {
+        if (password.value.length < 8 || !passwordRegex.test(password)) {
             console.log("Invalid password!");
         }
 

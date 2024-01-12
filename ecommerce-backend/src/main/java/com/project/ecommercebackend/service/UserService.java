@@ -26,8 +26,7 @@ public class UserService {
     }
 
     public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException {
-        if (localUserDAO.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()
-                || localUserDAO.findByUsernameIgnoreCase(registrationBody.getUsername()).isPresent()) {
+        if (localUserDAO.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
         LocalUser user = new LocalUser();
@@ -41,7 +40,7 @@ public class UserService {
     }
 
     public String loginUser(LoginBody loginBody) {
-        Optional<LocalUser> opUser = localUserDAO.findByUsernameIgnoreCase(loginBody.getUsername());
+        Optional<LocalUser> opUser = localUserDAO.findByEmailIgnoreCase(loginBody.getEmail());
         if(opUser.isPresent()) {
             LocalUser user = opUser.get();
             if(encryptionService.verifyPassword(loginBody.getPassword(), user.getPassword())) {
@@ -52,8 +51,8 @@ public class UserService {
     }
 
     public UserRole getUserRole(String jwt) {
-        String username = jwtService.getUsername(jwt);
-        Optional<LocalUser> opUser = localUserDAO.findByUsernameIgnoreCase(username);
+        String email = jwtService.getEmail(jwt);
+        Optional<LocalUser> opUser = localUserDAO.findByEmailIgnoreCase(email);
         if(opUser.isPresent()) {
             return opUser.get().getUserRole();
         }

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loginForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const email = document.getElementById("loginEmail");
+        const email = document.getElementById("loginEmail").value;
         const password = document.getElementById("loginPassword");
 
         const loginBody = {
@@ -15,12 +15,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         axios.post('http://localhost:8080/auth/login', loginBody)
             .then(response => {
-                console.log('Login successful');
-                window.location.href = "index.html";
+                console.log("testt");
+                if(response.data.jwt) {
+                    document.cookie = `jwt=${response.data.jwt}; path=/`;
+                    window.location.href = "index.html";
+                } else {
+                    console.log('Invalid email or password:');
+                }
             })
             .catch(error => {
-                console.log('Error during login:', error);
+                console.log("Error during login:", error);
             });
 
     });
-}
+});
