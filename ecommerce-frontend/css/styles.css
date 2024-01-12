@@ -22,3 +22,11 @@ body {
 .current {
     color: #198754;
 }
+
+#registrationForm label,
+#registrationForm input,
+#registrationForm button {
+    display: block;
+    margin-bottom: 10px;
+}
+

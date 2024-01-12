@@ -2,9 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify integrated music shop based on your own taste!</title>
+    <link rel="icon" href="./images/online-store-icon-15.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
+    <div class="container mt-3">
+        <h2 class="mb-4" id="pageTitle">User Registration</h2>
+        <form id="registrationForm">
+            <div class="form-floating mb-3 mt-3">
+                <input type="text" class="form-control" id="registrationEmail" placeholder="Enter email" name="email" required>
+                <label for="registrationEmail">Email</label>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-floating mt-3 mb-3">
+                <input type="text" class="form-control" id="registrationPassword" placeholder="Enter password" name="password" required>
+                <label for="registrationPassword">Password</label>
+                <small id="passwordWarning" class="text-danger">Password must be at least 8 characters long and must contain at least one letter and one digit.</small>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <input type="text" class="form-control" id="firstName" placeholder="Enter first name" name="firstName" required>
+                <label for="firstName">First name</label>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <input type="text" class="form-control" id="lastName" placeholder="Enter last name" name="lastName" required>
+                <label for="lastName">Last name</label>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
+                <label for="username">Username</label>
+            </div>
+
+            <button type="submit" class="btn btn-success">Register</button>
+            <p class="mt-2">Already have an account? <span id="showLoginForm" style="cursor: pointer; color: blue; text-decoration: underline;">Login here</span></p>
+        </form>
+    </div>
+
+    <div class="container mt-3">
+        <form id="loginForm">
+            <div class="form-floating mb-3 mt-3">
+                <input type="text" class="form-control" id="loginEmail" placeholder="Enter email" name="email" required>
+                <label for="loginEmail">Email</label>
+            </div>
+            <div class="form-floating mt-3 mb-3">
+                <input type="text" class="form-control" id="loginPassword" placeholder="Enter password" name="password" required>
+                <label for="loginPassword">Password</label>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+
+    <script src="js/nav-bar.js" defer></script>
+    <script src="js/register.js"></script>
 
 </body>
 </html>

@@ -33,6 +33,11 @@ function setCurrentPageLink(catId) {
             if(categoryPageLink) {
                 categoryPageLink.classList.add('current');
             }
+        } else if (pageTitle.innerHTML === "User Registration") {
+            const registerPageLink = document.querySelector('.nav-link[href="register.html"]');
+            if (registerPageLink) {
+                registerPageLink.classList.add('current');
+            }
         }
     }
 }
