@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         axios.post('http://localhost:8080/auth/register', registrationBody)
             .then(response => {
                 console.log('Registration successful');
-                window.location.href = "index.html";
+                window.location.href = "login.html";
 
             })
             .catch(error => {
