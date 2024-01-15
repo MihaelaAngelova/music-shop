@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(location.search);
             const catId = urlParams.get("id");
             setCurrentPageLink(catId);
+            handleAuthenticationButtons();
         })
         .catch(error => console.error("Error fetching navbar:", error));
 });
@@ -40,4 +41,24 @@ function setCurrentPageLink(catId) {
             }
         }
     }
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function handleAuthenticationButtons() {
+    const userName = getCookie("nameCookie");
+    if(userName === undefined) {
+        return;
+    }
+
+    const registerLink = document.getElementById("registerLink");
+    const userLink = document.getElementById('userLink');
+
+    userLink.textContent = userName;
+    registerLink.style.display = 'none';
+    userLink.style.display = 'block';
 }

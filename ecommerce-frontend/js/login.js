@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const firstName = response.data.firstName;
                 const lastName = response.data.lastName;
                 const fullName = firstName + ' ' + lastName;
-                console.log(response.data);
+
                 document.cookie = `nameCookie=${fullName}; path=/`;
                 window.location.href = "index.html";
             })
