@@ -5,10 +5,6 @@ import jakarta.validation.constraints.*;
 public class RegistrationBody {
     @NotNull
     @NotBlank
-    @Size(min=3, max= 55)
-    private String username;
-    @NotNull
-    @NotBlank
     @Email
     private String email;
     @NotNull
@@ -23,9 +19,22 @@ public class RegistrationBody {
     @NotBlank
     private String lastName;
 
-    public String getUsername() {
-        return username;
-    }
+    @NotNull
+    @NotBlank
+    @Pattern(regexp = "\\d{10}|\\+\\d{10,12}")
+    private String phoneNumber;
+
+    @NotNull
+    @NotBlank
+    private String street;
+
+    @NotNull
+    @NotBlank
+    private String city;
+
+    @NotNull
+    @NotBlank
+    private String country;
 
     public String getEmail() {
         return email;
@@ -41,5 +50,19 @@ public class RegistrationBody {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getPhoneNumber() { return phoneNumber; }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
     }
 }

@@ -45,8 +45,6 @@ public class OrderService {
         WebOrder order = new WebOrder();
 
         List<OrderElement> orderElements = convert(cart);
-        // if some element is null, then its product is not found
-        // => invalid product list, return null
         if (orderElements.stream().anyMatch(oe -> oe == null)) {
             return null;
         }
@@ -54,8 +52,7 @@ public class OrderService {
         orderElements = orderElements
                 .stream()
                 .peek(oe -> {
-                    oe.setOrder(order); // bind each to its parent WebOrder
-                    // and subtract relevant product quantities
+                    oe.setOrder(order);
                     Product p = oe.getProduct();
                     p.setQuantity(p.getQuantity() - oe.getQuantity());
                 })

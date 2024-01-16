@@ -14,8 +14,8 @@ public class LocalUser {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
+    @Column(name = "phone_number", nullable = false, unique = true)
+    private String phoneNumber;
 
     @JsonIgnore
     @Column(name = "password", nullable = false, length = 1000)
@@ -85,8 +85,10 @@ public class LocalUser {
         this.password = password;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getPhoneNumber() { return phoneNumber; }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {
