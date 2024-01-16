@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const catId = urlParams.get("id");
             setCurrentPageLink(catId);
             handleAuthenticationButtons();
+            addLogoutListener();
         })
         .catch(error => console.error("Error fetching navbar:", error));
 });
@@ -61,4 +62,18 @@ function handleAuthenticationButtons() {
     userLink.textContent = userName;
     registerLink.style.display = 'none';
     userLink.style.display = 'block';
+}
+
+function addLogoutListener () {
+    const logoutButton = document.getElementById("da_si_hodim");
+
+    logoutButton.addEventListener("click", function () {
+        logoutUser();
+    });
+}
+
+function logoutUser() {
+    document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "nameCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = "index.html";
 }
