@@ -11,6 +11,30 @@ public class GuestBody {
 
     @NotNull
     @NotBlank
+    private String phoneNumber;
+
+    @NotNull
+    @NotBlank
+    private String firstName;
+
+    @NotNull
+    @NotBlank
+    private String lastName;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    @NotNull
+    @NotBlank
     private String address;
 
     @NotNull

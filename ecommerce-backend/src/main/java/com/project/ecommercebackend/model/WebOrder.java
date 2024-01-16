@@ -19,11 +19,32 @@ public class WebOrder {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(name = "phone_number", nullable = false, length = 15)
+    private String phoneNumber;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
     public WebOrder() {
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Address getAddress() {
@@ -58,9 +79,12 @@ public class WebOrder {
         this.id = id;
     }
 
-    public WebOrder(List<OrderElement> orderElements, String email, Address address) {
+    public WebOrder(List<OrderElement> orderElements, String email, String firstName, String lastName, String phoneNumber, Address address) {
         this.orderElements = orderElements;
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.address = address;
     }
 }

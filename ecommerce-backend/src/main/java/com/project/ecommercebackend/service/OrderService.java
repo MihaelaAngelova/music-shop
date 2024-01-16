@@ -40,7 +40,7 @@ public class OrderService {
     }
 
     @Transactional
-    public WebOrder saveOrder(String email, Address address, List<CartItem> cart) {
+    public WebOrder saveOrder(String email, String firstName, String lastName, String phoneNumber, Address address, List<CartItem> cart) {
         Address savedAddress = addressDAO.save(address);
         WebOrder order = new WebOrder();
 
@@ -61,6 +61,9 @@ public class OrderService {
         order.setAddress(savedAddress);
         order.setEmail(email);
         order.setOrderElements(orderElements);
+        order.setFirstName(firstName);
+        order.setLastName(lastName);
+        order.setPhoneNumber(phoneNumber);
         return webOrderDAO.save(order);
     }
 }

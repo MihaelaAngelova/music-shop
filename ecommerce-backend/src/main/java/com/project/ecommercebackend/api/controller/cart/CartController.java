@@ -91,20 +91,29 @@ public class CartController {
                                             @RequestBody GuestBody guestBody) {
         String email;
         Address address;
+        String phoneNumber;
+        String firstName;
+        String lastName;
 
         if(user != null) {
             email = user.getEmail();
             address = user.getAddress();
+            phoneNumber = user.getPhoneNumber();
+            firstName = user.getFirstName();
+            lastName = user.getLastName();
         } else {
             email = guestBody.getEmail();
             address = new Address(guestBody.getAddress(), guestBody.getCity(), guestBody.getCountry());
+            phoneNumber = guestBody.getPhoneNumber();
+            firstName = guestBody.getFirstName();
+            lastName = guestBody.getLastName();
         }
 
         List<CartItem> cart = (List<CartItem>) session.getAttribute(CART);
         if(cart == null || cart.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
-            WebOrder response = orderService.saveOrder(email, address, cart);
+            WebOrder response = orderService.saveOrder(email, firstName, lastName, phoneNumber, address, cart);
             if (response == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }

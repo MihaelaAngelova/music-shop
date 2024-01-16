@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify integrated music shop based on your own taste!</title>
+  <link rel="icon" href="./images/online-store-icon-15.png" type="image/x-icon">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <div class="container mt-3">
+    <form id="guestData" style="display: none;">
+      <h2 class="mb-4" id="pageTitle">Fill out the blank fields</h2>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="guestEmail" placeholder="Enter email" name="guestEmail" required>
+        <label for="guestEmail">Email</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="firstName" placeholder="Enter first name" name="firstName" required>
+        <label for="firstName">First name</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" name="lastName" required>
+        <label for="lastName">Last name</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="phoneNumber" placeholder="Enter phone number" name="phoneNumber" required>
+        <label for="phoneNumber">Phone number</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="address" placeholder="Enter address" name="address" required>
+        <label for="address">Address</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="city" placeholder="Enter city" name="city" required>
+        <label for="city">City</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="country" placeholder="Enter country" name="country" required>
+        <label for="country">Country</label>
+      </div>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+  </div>
+  <script src="js/checkout.js"></script>
+  <script src="js/nav-bar.js" defer></script>
+</body>
+</html>
