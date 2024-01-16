@@ -13,6 +13,7 @@ function fetchCartItems() {
 
 function displayCartItems(cartItems) {
     const cartItemsContainer = document.getElementById('cartItems');
+    cartItemsContainer.innerHTML = '';
     if (cartItems.length === 0) {
         cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
         return;
@@ -20,7 +21,7 @@ function displayCartItems(cartItems) {
 
     cartItems.forEach(item => {
         axios.defaults.withCredentials = true;
-        axios.get(`http://localhost:8080/products/${item.productId}`)
+        axios.get(`http://localhost:8080/product/${item.product.id}`)
             .then(response => {
                 const productDetails = response.data;
                 const cartItemElement = createCartItemElement(productDetails, item.quantity);
@@ -38,6 +39,7 @@ function createCartItemElement(product, quantity) {
         <div class="card product-cell">
             <div class="card-body">
                 <h5 class="card-title">${product.name}</h5>
+                <img src="${product.imagePath}" alt="${product.name}" style="max-width: 40%;"/>
                 <p class="card-text">${product.description}</p>
                 <p class="card-text">Price: ${product.price}lv. - Quantity: ${quantity}</p>
                 <button class="btn btn-danger" onclick="removeFromCart(${product.id})">Remove</button>

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/product")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:63342", allowCredentials = "true")
 public class ProductController {
 
     private ProductService productService;
@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Product> getProduct(@PathVariable int id) {
+    ResponseEntity<Product> getProduct(@PathVariable Long id) {
         Optional<Product> productMaybe = productService.getProduct(id);
         return productMaybe
                 .map(ResponseEntity::ok)

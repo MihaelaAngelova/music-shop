@@ -1,11 +1,12 @@
 package com.project.ecommercebackend.api.controller.cart;
 
 import com.project.ecommercebackend.api.model.GuestBody;
-import com.project.ecommercebackend.api.model.ProductQuantityPair;
+import com.project.ecommercebackend.api.model.CartItem;
+import com.project.ecommercebackend.api.model.ProductQuantityBody;
 import com.project.ecommercebackend.model.Address;
 import com.project.ecommercebackend.model.LocalUser;
+import com.project.ecommercebackend.model.Product;
 import com.project.ecommercebackend.model.WebOrder;
-import com.project.ecommercebackend.model.OrderElement;
 import com.project.ecommercebackend.service.OrderService;
 import com.project.ecommercebackend.service.ProductService;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,39 +34,46 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity postAddToCart(@RequestBody ProductQuantityPair productQuantityPair, HttpSession session) {
-        if(!productService.decreaseQuantity(productQuantityPair.getProductId(), productQuantityPair.getQuantity())) {
+    public ResponseEntity postAddToCart(@RequestBody ProductQuantityBody productQuantityBody, HttpSession session) {
+        Optional<Product> product = productService.getProduct(productQuantityBody.getProductId());
+        if(!product.isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        List<ProductQuantityPair> cart = (List<ProductQuantityPair>) session.getAttribute(CART);
+
+        int quantity = productQuantityBody.getQuantity();
+
+        if(!productService.decreaseQuantity(productQuantityBody.getProductId(), quantity)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        List<CartItem> cart = (List<CartItem>) session.getAttribute(CART);
         if (cart == null) {
             cart = new ArrayList<>();
         }
         cart = new ArrayList<>(cart);
-        cart.add(productQuantityPair);
+        cart.add(new CartItem(product.get(), quantity));
         session.setAttribute(CART, cart);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public List<ProductQuantityPair> getCart(HttpSession session) {
-        List<ProductQuantityPair> cart = (List<ProductQuantityPair>) session.getAttribute(CART);
+    public ResponseEntity<List<CartItem>> getCart(HttpSession session) {
+        List<CartItem> cart = (List<CartItem>) session.getAttribute(CART);
         if(cart == null) {
-            return new ArrayList<>();
+            return ResponseEntity.ok(new ArrayList<>());
         }
-        return cart;
+        return ResponseEntity.ok(cart);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteProductFromCart(@PathVariable int id, HttpSession session) {
-        List<ProductQuantityPair> cart = (List<ProductQuantityPair>) session.getAttribute(CART);
+        List<CartItem> cart = (List<CartItem>) session.getAttribute(CART);
         if(cart == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         boolean productExists = cart.stream()
-                .anyMatch(pair -> pair.getProductId() == id);
+                .anyMatch(pair -> pair.getProduct().getId() == id);
         if(productExists) {
-            cart = cart.stream().filter(pair -> pair.getProductId() != id).collect(Collectors.toList());
+            cart = cart.stream().filter(pair -> pair.getProduct().getId() != id).collect(Collectors.toList());
             session.setAttribute(CART, cart);
             return ResponseEntity.ok().build();
         } else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -91,7 +100,7 @@ public class CartController {
             address = new Address(guestBody.getAddress(), guestBody.getCity(), guestBody.getCountry());
         }
 
-        List<ProductQuantityPair> cart = (List<ProductQuantityPair>) session.getAttribute(CART);
+        List<CartItem> cart = (List<CartItem>) session.getAttribute(CART);
         if(cart == null || cart.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {

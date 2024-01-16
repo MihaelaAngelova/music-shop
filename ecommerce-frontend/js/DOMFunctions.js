@@ -6,7 +6,7 @@ function addToCart(productId) {
         quantity: Number(quantity)
     })
         .then(response => {
-            alert(`Added ${quantity} T-Shirt(s) to the cart!`);
+            alert(`Added ${quantity} item(s) to the cart!`);
         })
         .catch(error => {
             console.error('Error adding item to cart:', error);

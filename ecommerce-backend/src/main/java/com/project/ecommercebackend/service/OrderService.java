@@ -1,9 +1,8 @@
 package com.project.ecommercebackend.service;
 
-import com.project.ecommercebackend.api.model.ProductQuantityPair;
+import com.project.ecommercebackend.api.model.CartItem;
 import com.project.ecommercebackend.model.*;
 import com.project.ecommercebackend.model.dao.AddressDAO;
-import com.project.ecommercebackend.model.dao.OrderElementDAO;
 import com.project.ecommercebackend.model.dao.ProductDAO;
 import com.project.ecommercebackend.model.dao.WebOrderDAO;
 import jakarta.transaction.Transactional;
@@ -25,10 +24,10 @@ public class OrderService {
         this.productDAO = productDAO;
     }
 
-    public List<OrderElement> convert(List<ProductQuantityPair> productQuantityPairList) {
+    public List<OrderElement> convert(List<CartItem> productQuantityPairList) {
         return productQuantityPairList.stream().map(productQuantityPair -> {
-            int id = productQuantityPair.getProductId();
-            Optional<Product> productMaybe = productDAO.findById(new Long(id));
+            Long id = productQuantityPair.getProduct().getId();
+            Optional<Product> productMaybe = productDAO.findById(id);
             if (productMaybe.isEmpty()) {
                 return null;
             }
@@ -41,7 +40,7 @@ public class OrderService {
     }
 
     @Transactional
-    public WebOrder saveOrder(String email, Address address, List<ProductQuantityPair> cart) {
+    public WebOrder saveOrder(String email, Address address, List<CartItem> cart) {
         Address savedAddress = addressDAO.save(address);
         WebOrder order = new WebOrder();
 

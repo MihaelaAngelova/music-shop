@@ -42,8 +42,8 @@ public class ProductService {
                 .toList();
     }
 
-    public Optional<Product> getProduct(int id) {
-        return productDAO.findById((long)id);
+    public Optional<Product> getProduct(Long id) {
+        return productDAO.findById(id);
     }
 
     public Product createProduct(ProductBody productBody) {
@@ -73,7 +73,7 @@ public class ProductService {
         productDAO.deleteById((long)productID);
     }
 
-    public boolean decreaseQuantity(int productId, int quantity) {
+    public boolean decreaseQuantity(Long productId, int quantity) {
         return productDAO.findById((long)productId)
                 .map(p -> p.getQuantity() - quantity >= 0)
                 .orElse(false);

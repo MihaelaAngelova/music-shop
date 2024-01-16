@@ -1,16 +1,14 @@
 package com.project.ecommercebackend.api.model;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
-public class ProductQuantityPair {
+public class ProductQuantityBody {
     @NotNull
-    private int productId;
-    @Size(min = 1)
+    Long productId;
     @NotNull
-    private int quantity;
+    int quantity;
 
-    public int getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
