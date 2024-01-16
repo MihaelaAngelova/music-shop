@@ -7,8 +7,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const email = document.getElementById("registrationEmail").value;
         const firstName = document.getElementById("firstName").value;
         const lastName = document.getElementById("lastName").value;
-        const username = document.getElementById("username").value;
+        const phoneNumber = document.getElementById("phoneNumber").value;
         const password = document.getElementById("registrationPassword");
+
+        const address = document.getElementById("address").value;
+        const city = document.getElementById("city").value;
+        const country = document.getElementById("country").value;
 
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
@@ -20,8 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
             email: email,
             firstName: firstName,
             lastName: lastName,
-            username: username,
-            password: password.value
+            phoneNumber: phoneNumber,
+            password: password.value,
+            address: address,
+            city: city,
+            country: country
         };
 
         axios.post('http://localhost:8080/auth/register', registrationBody)

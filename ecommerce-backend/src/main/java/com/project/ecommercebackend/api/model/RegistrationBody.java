@@ -26,7 +26,7 @@ public class RegistrationBody {
 
     @NotNull
     @NotBlank
-    private String street;
+    private String address;
 
     @NotNull
     @NotBlank
@@ -54,8 +54,8 @@ public class RegistrationBody {
 
     public String getPhoneNumber() { return phoneNumber; }
 
-    public String getStreet() {
-        return street;
+    public String getAddress() {
+        return address;
     }
 
     public String getCity() {

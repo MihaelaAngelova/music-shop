@@ -44,7 +44,6 @@ function createCartItemElement(product, quantity) {
                 <p class="card-text">Price: ${product.price}lv. - Quantity: ${quantity}</p>
                 <button class="btn btn-danger" onclick="removeFromCart(${product.id})">Remove</button>
             </div>
-            <hr>
         </div>
     `;
     return cartItemElement;
@@ -59,8 +58,4 @@ function removeFromCart(productId) {
         .catch(error => {
             console.error('Error removing item from cart:', error);
         });
-}
-
-function checkout() {
-    alert('Initiating checkout...');
 }

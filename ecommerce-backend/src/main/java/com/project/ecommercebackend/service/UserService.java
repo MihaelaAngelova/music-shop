@@ -42,7 +42,7 @@ public class UserService {
         user.setUserRole(UserRole.USER);
         user.setPhoneNumber(registrationBody.getPhoneNumber());
         user.setPassword(encryptionService.encryptPassword(registrationBody.getPassword()));
-        address.setAddress(registrationBody.getStreet());
+        address.setAddress(registrationBody.getAddress());
         address.setCity(registrationBody.getCity());
         address.setCountry(registrationBody.getCountry());
         address.setUser(user);
