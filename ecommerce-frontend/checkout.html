@@ -8,6 +8,28 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <style>
+    input[type="radio"].btn-check:checked + label.btn-success {
+      background-color: #198754;
+      border-color: #198754;
+      color: white;
+    }
+
+    label.btn-success {
+      background-color: white;
+      border-color: #198754;
+      color: #198754;
+    }
+
+    label.btn-success:hover,
+    label.btn-success:active,
+    label.btn-success:focus {
+      background-color: white;
+      border-color: #198754;
+      color: #198754;
+    }
+  </style>
 </head>
 
 <body>
@@ -42,10 +64,20 @@
         <input type="text" class="form-control" id="country" placeholder="Enter country" name="country" required>
         <label for="country">Country</label>
       </div>
-      <button type="submit" class="btn btn-success">Submit</button>
     </form>
-  </div>
 
+    <form class="shadow p-3 mb-5 bg-body-tertiary rounded" id="paymentMethod">
+      <h2 class="mb-4" id="paymentMethodTitle">Payment method</h2>
+      <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
+        <label class="btn btn-success" for="vbtn-radio1">Cash on delivery</label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+        <label class="btn btn-success" for="vbtn-radio2">By card</label>
+      </div>
+    </form>
+
+    <button id='checkoutButton' class="btn btn-success">Submit</button>
+  </div>
 
   <script src="js/checkout.js"></script>
   <script src="js/nav-bar.js" defer></script>

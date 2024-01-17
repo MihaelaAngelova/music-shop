@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify integrated music shop based on your own taste!</title>
+    <link rel="icon" href="./images/online-store-icon-15.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+        #successfulOrder {
+            color: #198754;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-3">
+    <form class="shadow p-3 mb-5 bg-body-tertiary rounded" id="guestData" >
+        <h2 class="mb-4" id="successfulOrder">You have successfully made an order!</h2>
+        <button type="button" id='backButton' class="btn btn-success">Back</button>
+    </form>
+</div>
+<script>
+    document.getElementById('backButton').addEventListener('click', function() {
+        window.location.href = 'index.html';
+    });
+</script>
+</body>
+</html>

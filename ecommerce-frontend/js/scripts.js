@@ -40,4 +40,18 @@ function displayProducts(products) {
     });
 }
 
-export {displayProducts}
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+// function setAuthHeaders() {
+//     const jwt = getCookie("jwt");
+//     if (jwt === undefined) {
+//         axios.default.withCredentials = true;
+//     } else {
+//         axios.default.headers.common["Authorization"] = `Bearer ${jwt}`;
+//     }
+// }
+export {displayProducts, getCookie}

@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const guestData = document.getElementById("guestData");
         guestData.style.display='block';
 
-        guestData.addEventListener("submit", function (event) {
-            event.preventDefault();
+        const checkoutButton = document.getElementById("checkoutButton");
+        checkoutButton.addEventListener("click", function (event) {
 
             const email = document.getElementById("guestEmail").value;
             const firstName = document.getElementById("firstName").value;
@@ -14,12 +14,31 @@ document.addEventListener("DOMContentLoaded", function () {
             const address = document.getElementById("address").value;
             const city = document.getElementById("city").value;
             const country = document.getElementById("country").value;
+
+
+            const checkoutBody = {
+                email: email,
+                firstName: firstName,
+                lastName: lastName,
+                phoneNumber: phoneNumber,
+                address: address,
+                city: city,
+                country: country
+            }
+            axios.defaults.withCredentials = true;
+            axios.post("http://localhost:8080/cart/payment", checkoutBody)
+                .then(response => {
+                    window.location.href = "successfulOrderScreen.html";
+                }).catch(error => console.error(error))
+        })
+    } else {
+        const checkoutButton = document.getElementById("checkoutButton");
+        checkoutButton.addEventListener("click", function (event) {
+            axios.defaults.withCredentials = true;
+            axios.post("http://localhost:8080/cart/payment").then(response => {
+                window.location.href = "successfulOrderScreen.html";
+            }).catch(error => console.error(error))
         })
     }
-})
 
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
+})

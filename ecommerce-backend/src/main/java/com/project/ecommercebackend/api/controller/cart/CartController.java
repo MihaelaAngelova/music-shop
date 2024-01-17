@@ -111,7 +111,7 @@ public class CartController {
 
         List<CartItem> cart = (List<CartItem>) session.getAttribute(CART);
         if(cart == null || cart.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
         } else {
             WebOrder response = orderService.saveOrder(email, firstName, lastName, phoneNumber, address, cart);
             if (response == null) {
