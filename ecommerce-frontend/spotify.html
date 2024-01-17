@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify integrated music shop based on your own taste!</title>
+    <link rel="icon" href="./images/online-store-icon-15.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<script src="js/nav-bar.js" defer></script>
+
+<div class="container mt-3">
+    <h2 class="mb-4" id="pageTitle">Spotify Login</h2>
+    <form class="shadow p-3 mb-5 bg-body-tertiary rounded" id="spotifyLogin">
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" class="form-control" id="spotifyEmail" placeholder="Enter email" name="email" required>
+            <label for="spotifyEmail">Email</label>
+        </div>
+
+        <div class="form-floating mt-3 mb-3">
+            <input type="password" class="form-control" id="spotifyPassword" placeholder="Enter password" name="password" required>
+            <label for="spotifyPassword">Password</label>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+<!--    <img src="images/Spotify_Logo_RGB_Green.png" alt="Spotify png logo" style="max-width: 30%;"/>-->
+</div>
+
+</body>
+</html>
