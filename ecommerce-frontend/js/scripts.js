@@ -24,8 +24,7 @@ function createProductCard(product) {
 
 function displayProducts(products) {
     const productListContainer = document.getElementById('productList');
-    productListContainer.innerHTML = ''; // Clear existing content
-
+    productListContainer.innerHTML = '';
     let row;
     products.forEach((product, index) => {
         if (index % 4 === 0) {
@@ -38,6 +37,34 @@ function displayProducts(products) {
         const productCard = createProductCard(product);
         row.appendChild(productCard);
     });
+
+    const userRole = getCookie('userRole');
+    if(userRole && userRole.toUpperCase() === 'ADMINISTRATOR') {
+        const addAProductButton = document.getElementById("addAProductButton");
+        addAProductButton.style.display="block";
+        addAProductButton.addEventListener("click", function() {
+            addAProduct();
+        })
+    }
+}
+
+function addAProduct() {
+    const userRole = getCookie('userRole');
+    if (userRole && userRole.toUpperCase() === 'ADMINISTRATOR') {
+        const modal = new bootstrap.Modal(document.getElementById('productModal'), {
+            keyboard: false
+        });
+
+        const saveChangesButton = document.querySelector("#productModal .btn-primary");
+        saveChangesButton.addEventListener("click", function () {
+            // TODO: Write the functionality for saving changes
+            modal.hide();
+        });
+
+        modal.show();
+    } else {
+        console.log('You do not have permission to add a product.');
+    }
 }
 
 function getCookie(name) {
@@ -54,4 +81,4 @@ function getCookie(name) {
 //         axios.default.headers.common["Authorization"] = `Bearer ${jwt}`;
 //     }
 // }
-export {displayProducts, getCookie}
+export {displayProducts, getCookie, addAProduct}

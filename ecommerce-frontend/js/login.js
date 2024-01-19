@@ -24,13 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                 } else {
                     console.log('Invalid email or password:');
+                    passwordWarning.textContent = 'Invalid email or password';
+                    passwordWarning.style.color = 'red';
                 }
             })
             .then(response => {
                 const firstName = response.data.firstName;
                 const lastName = response.data.lastName;
+                const userRole = response.data.userRole;
                 const fullName = firstName + ' ' + lastName;
-
+                document.cookie = `userRole=${userRole}; path=/`;
                 document.cookie = `nameCookie=${fullName}; path=/`;
                 window.location.href = "index.html";
             })
