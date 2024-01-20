@@ -5,14 +5,23 @@ import com.project.ecommercebackend.model.LocalUser;
 import com.project.ecommercebackend.model.Product;
 import com.project.ecommercebackend.model.ProductType;
 import com.project.ecommercebackend.model.dao.ProductDAO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductService {
+
+    @Value("${upload.directory}")
+    private String uploadDirectory;
 
     private ProductDAO productDAO;
 
@@ -46,11 +55,28 @@ public class ProductService {
         return productDAO.findById(id);
     }
 
-    public Product createProduct(ProductBody productBody) {
+    public Product createProduct(ProductBody productBody, MultipartFile image) {
         Product product = new Product();
         copyProductData(productBody, product);
+
+        String imagePath = saveImage(image);
+        product.setImagePath(imagePath);
         return productDAO.save(product);
     }
+
+    private String saveImage(MultipartFile image) {
+        String imagePath = "images/" + image.getOriginalFilename();
+        String fileName = image.getOriginalFilename();
+
+        try {
+            Files.copy(image.getInputStream(), Paths.get(imagePath), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save image", e);
+        }
+
+        return imagePath;
+    }
+
 
     private static void copyProductData(ProductBody productBody, Product product) {
         product.setName(productBody.getName());

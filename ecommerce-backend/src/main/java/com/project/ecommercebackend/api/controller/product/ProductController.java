@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -37,13 +38,13 @@ public class ProductController {
 
     @PostMapping
     ResponseEntity<Product> postProduct(@Valid @RequestBody ProductBody productBody,
-                                        @AuthenticationPrincipal LocalUser user) {
+                                        @AuthenticationPrincipal LocalUser user, MultipartFile image) {
         if(user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         UserRole userRole = user.getUserRole();
         if(userRole.equals(UserRole.ADMINISTRATOR)) {
-            Product response = productService.createProduct(productBody);
+            Product response = productService.createProduct(productBody, image);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();

@@ -57,10 +57,34 @@ function addAProduct() {
 
         const saveChangesButton = document.querySelector("#productModal .btn-primary");
         saveChangesButton.addEventListener("click", function () {
-            // TODO: Write the functionality for saving changes
-            modal.hide();
-        });
+            const productName = document.getElementById("productName").value;
+            const productDescription = document.getElementById("productDescription").value;
+            const productPrice = document.getElementById("productPrice").value;
+            const productType = document.getElementById("productType").value;
+            const productQuantity = document.getElementById("productQuantity").value;
+            const productImage = document.getElementById("productImage").files[0];
 
+            const formData = new FormData();
+            formData.append("name", productName);
+            formData.append("description", productDescription);
+            formData.append("price", productPrice);
+            formData.append("type", productType);
+            formData.append("quantity", productQuantity);
+            formData.append("image", productImage);
+
+            axios.post('http://localhost:8080/addProduct', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    console.log("Product added successfully:", response.data);
+                    modal.hide();
+                })
+                .catch(error => {
+                    console.error("Error adding product:", error);
+                });
+        });
         modal.show();
     } else {
         console.log('You do not have permission to add a product.');
