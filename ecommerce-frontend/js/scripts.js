@@ -1,5 +1,3 @@
-const productListContainer = document.getElementById('productList');
-
 function createProductCard(product) {
     const card = document.createElement("div");
     card.className = "col-md-3 mb-4";
@@ -55,8 +53,19 @@ function addAProduct() {
             keyboard: false
         });
 
-        const saveChangesButton = document.querySelector("#productModal .btn-primary");
-        saveChangesButton.addEventListener("click", function () {
+        modal.show();
+        const addProduct = document.getElementById("addProduct");
+        addProduct.addEventListener("shown.bs.modal", function () {
+            const saveChangesButton = document.querySelector("#productModal .btn-primary");
+
+            // Add the click event listener for the "Save Changes" button
+            saveChangesButton.addEventListener("click", saveChangesButtonClickHandler);
+        });
+
+        // Function to handle the "Save Changes" button click
+        function saveChangesButtonClickHandler() {
+            console.log("Save Changes button clicked!");
+
             const productName = document.getElementById("productName").value;
             const productDescription = document.getElementById("productDescription").value;
             const productPrice = document.getElementById("productPrice").value;
@@ -84,12 +93,12 @@ function addAProduct() {
                 .catch(error => {
                     console.error("Error adding product:", error);
                 });
-        });
-        modal.show();
+        }
     } else {
         console.log('You do not have permission to add a product.');
     }
 }
+
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;

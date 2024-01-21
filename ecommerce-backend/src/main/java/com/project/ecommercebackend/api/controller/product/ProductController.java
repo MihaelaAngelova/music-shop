@@ -21,11 +21,9 @@ import java.util.Optional;
 public class ProductController {
 
     private ProductService productService;
-    private UserService userService;
 
-    public ProductController(ProductService productService, UserService userService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.userService = userService;
     }
 
     @GetMapping("/{id}")

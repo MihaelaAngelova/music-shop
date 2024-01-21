@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="shadow p-3 mb-5 bg-body-tertiary rounded" id="addAProductForm">
+                    <form class="shadow p-3 mb-5 bg-body-tertiary rounded" id="addAProductForm" enctype="multipart/form-data">
                         <div class="form-floating mb-3 mt-3">
                             <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
                             <label for="productName">Product name</label>
@@ -61,16 +61,13 @@
                             <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" required>
                             <label for="productImage">Product image</label>
                         </div>
-
-
-                        <button type="submit" class="btn btn-success">Add</button>
                     </form>
                 </div>
 
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-primary" id="addProduct">Save Changes</button>
                 </div>
 
             </div>
