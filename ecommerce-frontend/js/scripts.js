@@ -47,13 +47,17 @@ function displayProducts(products) {
 }
 
 function addAProduct() {
+
     const userRole = getCookie('userRole');
+
     if (userRole && userRole.toUpperCase() === 'ADMINISTRATOR') {
+
         const modal = new bootstrap.Modal(document.getElementById('productModal'), {
             keyboard: false
         });
-
+        console.log("test")
         modal.show();
+
         const addProduct = document.getElementById("addProduct");
         addProduct.addEventListener("shown.bs.modal", function () {
             const saveChangesButton = document.querySelector("#productModal .btn-primary");
@@ -62,7 +66,6 @@ function addAProduct() {
             saveChangesButton.addEventListener("click", saveChangesButtonClickHandler);
         });
 
-        // Function to handle the "Save Changes" button click
         function saveChangesButtonClickHandler() {
             console.log("Save Changes button clicked!");
 
@@ -114,4 +117,4 @@ function getCookie(name) {
 //         axios.default.headers.common["Authorization"] = `Bearer ${jwt}`;
 //     }
 // }
-export {displayProducts, getCookie, addAProduct}
+export {displayProducts, getCookie}

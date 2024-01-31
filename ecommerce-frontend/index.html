@@ -10,75 +10,33 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <script src="js/nav-bar.js" defer></script>
-    <div class="container mt-4">
-        <h2 class="mb-4" id="pageTitle">Featured Products</h2>
-        <div class="row" id="productList"></div>
-    </div>
+<script src="js/nav-bar.js" defer></script>
+<div class="container mt-4">
+    <h2 class="mb-4" id="pageTitle">Featured Products</h2>
+    <div class="row" id="productList"></div>
+</div>
 
-    <div class="mb-4 btn-success">
-        <button class="btn btn-success" id="addAProductButton" type="button" style="margin-left: 1200px;display: none;">Add a product</button>
-    </div>
+<div class="mb-4 btn-success">
+    <button class="btn btn-success" id="addAProductButton" type="button" style="margin-left: 1200px;display: none;">Add a product</button>
+</div>
 
-    <div class="modal" id="productModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
+<div id="modalContainer"></div>
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Product Information</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+<script defer src="js/bootstrap.bundle.min.js"></script>
+<script defer src="js/DOMFunctions.js"></script>
+<script type="module" src="js/index.js"></script>
+<script type="module" src="js/scripts.js"></script>
 
-                <div class="modal-body">
-                    <form class="shadow p-3 mb-5 bg-body-tertiary rounded" id="addAProductForm" enctype="multipart/form-data">
-                        <div class="form-floating mb-3 mt-3">
-                            <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
-                            <label for="productName">Product name</label>
-                        </div>
-
-                        <div class="form-floating mt-3 mb-3">
-                            <input type="text" class="form-control" id="productDescription" placeholder="Enter product description" name="productDescription" required>
-                            <label for="productDescription">Product description</label>
-                        </div>
-
-                        <div class="form-floating mt-3 mb-3">
-                            <input type="text" class="form-control" id="productPrice" placeholder="Enter product price" name="productPrice" required>
-                            <label for="productPrice">Product price</label>
-                        </div>
-
-                        <div class="form-floating mt-3 mb-3">
-                            <input type="text" class="form-control" id="productType" placeholder="Enter product type (0/1/2/3)" name="productType" required>
-                            <label for="productType">Product type (0/1/2/3)</label>
-                        </div>
-
-                        <div class="form-floating mt-3 mb-3">
-                            <input type="text" class="form-control" id="productQuantity" placeholder="Enter product quantity" name="productQuantity" required>
-                            <label for="productQuantity">Product quantity</label>
-                        </div>
-
-                        <div class="form-floating mt-3 mb-3">
-                            <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" required>
-                            <label for="productImage">Product image</label>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="addProduct">Save Changes</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-    <script defer src="js/bootstrap.bundle.min.js"></script>
-    <script defer src="js/DOMFunctions.js"></script>
-    <script type="module" src="js/index.js"></script>
-    <script type="module" src="js/scripts.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalContainer = document.getElementById('modalContainer');
+        const modalRequest = new XMLHttpRequest();
+        modalRequest.onload = function () {
+            modalContainer.innerHTML = this.responseText;
+        };
+        modalRequest.open('get', 'productModal.html', true);
+        modalRequest.send();
+    });
+</script>
 </body>
 </html>
-
