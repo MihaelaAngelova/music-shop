@@ -59,22 +59,21 @@ public class ProductService {
         Product product = new Product();
         copyProductData(productBody, product);
 
-        String imagePath = saveImage(image);
+        saveImage(image);
+
+        String imagePath = "images/" + image.getOriginalFilename();
         product.setImagePath(imagePath);
         return productDAO.save(product);
     }
 
-    private String saveImage(MultipartFile image) {
-        String imagePath = "images/" + image.getOriginalFilename();
-        String fileName = image.getOriginalFilename();
+    private void saveImage(MultipartFile image) {
+        String imagePath = "/Users/mishi/Desktop/ecommerce/ecommerce-frontend/images/" + image.getOriginalFilename();
 
         try {
             Files.copy(image.getInputStream(), Paths.get(imagePath), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException("Failed to save image", e);
         }
-
-        return imagePath;
     }
 
 

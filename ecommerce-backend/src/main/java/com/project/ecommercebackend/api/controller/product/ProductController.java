@@ -8,6 +8,7 @@ import com.project.ecommercebackend.service.ProductService;
 import com.project.ecommercebackend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +35,10 @@ public class ProductController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @PostMapping
-    ResponseEntity<Product> postProduct(@Valid @RequestBody ProductBody productBody,
-                                        @AuthenticationPrincipal LocalUser user, MultipartFile image) {
+    @PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    ResponseEntity<Product> postProduct(@Valid @RequestPart("product-data-json") ProductBody productBody,
+                                        @AuthenticationPrincipal LocalUser user,
+                                        @RequestPart("product-image") MultipartFile image) {
         if(user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

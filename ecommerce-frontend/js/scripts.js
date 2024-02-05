@@ -26,7 +26,6 @@ function displayProducts(products) {
     let row;
     products.forEach((product, index) => {
         if (index % 4 === 0) {
-            // Start a new row for every 4th product
             row = document.createElement("div");
             row.className = "row";
             productListContainer.appendChild(row);
@@ -35,6 +34,12 @@ function displayProducts(products) {
         const productCard = createProductCard(product);
         row.appendChild(productCard);
     });
+
+    if (products.length === 0) {
+        const noResultsMessage = document.createElement("p");
+        noResultsMessage.textContent = "No products found.";
+        productListContainer.appendChild(noResultsMessage);
+    }
 
     const userRole = getCookie('userRole');
     if(userRole && userRole.toUpperCase() === 'ADMINISTRATOR') {
@@ -55,17 +60,10 @@ function addAProduct() {
         const modal = new bootstrap.Modal(document.getElementById('productModal'), {
             keyboard: false
         });
-        console.log("test")
         modal.show();
 
-        const addProduct = document.getElementById("addProduct");
-        addProduct.addEventListener("shown.bs.modal", function () {
-            const saveChangesButton = document.querySelector("#productModal .btn-primary");
-
-            // Add the click event listener for the "Save Changes" button
-            saveChangesButton.addEventListener("click", saveChangesButtonClickHandler);
-        });
-
+        const saveChangesButton = document.getElementById("saveProduct");
+        saveChangesButton.addEventListener("click", saveChangesButtonClickHandler);
         function saveChangesButtonClickHandler() {
             console.log("Save Changes button clicked!");
 
@@ -74,28 +72,47 @@ function addAProduct() {
             const productPrice = document.getElementById("productPrice").value;
             const productType = document.getElementById("productType").value;
             const productQuantity = document.getElementById("productQuantity").value;
-            const productImage = document.getElementById("productImage").files[0];
+            const productImageInput = document.getElementById("productImage");
 
-            const formData = new FormData();
-            formData.append("name", productName);
-            formData.append("description", productDescription);
-            formData.append("price", productPrice);
-            formData.append("type", productType);
-            formData.append("quantity", productQuantity);
-            formData.append("image", productImage);
+            if (productImageInput.files.length > 0) {
+                const productImage = productImageInput.files[0];
 
-            axios.post('http://localhost:8080/addProduct', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-                .then(response => {
-                    console.log("Product added successfully:", response.data);
-                    modal.hide();
-                })
-                .catch(error => {
-                    console.error("Error adding product:", error);
+                const productDataObject = {
+                    name: productName,
+                    description: productDescription,
+                    price: productPrice,
+                    type: productType,
+                    quantity: productQuantity
+                };
+
+                const productJson = JSON.stringify(productDataObject);
+                const productBlob = new Blob([productJson], {
+                    type: "application/json"
                 });
+
+                const formData = new FormData();
+                formData.append("product-data-json", productBlob);
+                formData.append("product-image", productImage);
+
+                const jwt = getCookie("jwt");
+
+                axios.post('http://localhost:8080/product', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/mixed',
+                        'Authorization': `Bearer ${jwt}`
+                    }
+                })
+                    .then(response => {
+                        console.log("Product added successfully:", response.data);
+
+                        modal.hide();
+                    })
+                    .catch(error => {
+                        console.error("Error adding product:", error);
+                    });
+            } else {
+                console.log("Please select an image file.");
+            }
         }
     } else {
         console.log('You do not have permission to add a product.');
