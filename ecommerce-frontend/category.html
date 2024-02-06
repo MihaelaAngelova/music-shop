@@ -19,9 +19,27 @@
   </div>
 </div>
 
+<div class="mb-4 btn-success">
+  <button class="btn btn-success" id="addAProductButton" type="button" style="margin-left: 1200px;display: none;">Add a product</button>
+</div>
+
+<div id="modalContainer"></div>
+
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/DOMFunctions.js"></script>
 <script type="module" src="js/category.js"></script>
 <script type="module" src="js/scripts.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const modalContainer = document.getElementById('modalContainer');
+    const modalRequest = new XMLHttpRequest();
+    modalRequest.onload = function () {
+      modalContainer.innerHTML = this.responseText;
+    };
+    modalRequest.open('get', 'productModal.html', true);
+    modalRequest.send();
+  });
+</script>
 </body>
 </html>
