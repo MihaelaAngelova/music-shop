@@ -1,23 +1,72 @@
-function createProductCard(product) {
+function createMainPageProductCard(product) {
     const card = document.createElement("div");
     card.className = "col-md-3 mb-4";
 
-    card.innerHTML = `
-        <div class="card product-cell">
-            <div class="card-body">
-                <h5 class="card-title">${product.name}</h5>
-                <img src="${product.imagePath}" alt="${product.name}" style="max-width: 100%; max-height: 100%;"/>
-                <p class="card-text">${product.description}</p>
-                <p class="card-text">Price: ${product.price}lv.</p>
-            </div>
-            <div class="mt-2">
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity${product.id}" name="quantity" min="1" max="10" value="1" class="inputCell">
-                <button class="btn btn-success" onclick="addToCart(${product.id})">Add to Cart</button>
-            </div>
-        </div>
-    `;
+    const cardContent = document.createElement("div");
+    cardContent.className = "card product-cell";
+    card.appendChild(cardContent);
+
+    const productPictureLink = document.createElement("a");
+    productPictureLink.href = `product.html?id=${product.id}`;
+    productPictureLink.classList.add("product-picture-link");
+
+    const cardBody = document.createElement("div");
+    cardBody.className = "card-body";
+
+    const cardTitle = document.createElement("h5");
+    cardTitle.className = "card-title";
+    cardTitle.textContent = product.name;
+
+    productPictureLink.classList.add("product-title-link");
+
+    const productImage = document.createElement("img");
+    productImage.src = product.imagePath;
+    productImage.alt = product.name;
+    productImage.style.maxWidth = "100%";
+    productImage.style.maxHeight = "100%";
+
+    const priceParagraph = document.createElement("p");
+    priceParagraph.className = "card-text";
+    priceParagraph.textContent = `Price: ${product.price}lv.`;
+
+    const quantityLabel = document.createElement("label");
+    quantityLabel.setAttribute("for", `quantity${product.id}`);
+    quantityLabel.textContent = "Quantity:";
+
+    const quantityInput = document.createElement("input");
+    quantityInput.type = "number";
+    quantityInput.id = `quantity${product.id}`;
+    quantityInput.name = "quantity";
+
+    quantityInput.value = "1";
+    quantityInput.className = "inputCell";
+
+    const addToCartButton = document.createElement("button");
+    addToCartButton.className = "btn btn-success";
+    addToCartButton.textContent = "Add to Cart";
+    addToCartButton.onclick = function() {
+        addToCart(product.id);
+    };
+
+    cardContent.appendChild(productPictureLink);
+    productPictureLink.appendChild(cardBody);
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(productImage);
+    cardBody.appendChild(priceParagraph);
+    cardContent.appendChild(quantityLabel);
+    cardContent.appendChild(quantityInput);
+    cardContent.appendChild(addToCartButton);
+
+    productPictureLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        navigateToProductDetails(product.id);
+    });
+
     return card;
+}
+
+function navigateToProductDetails(productId) {
+    window.location.href = `product.html?id=${productId}`;
 }
 
 function displayProducts(products) {
@@ -31,7 +80,7 @@ function displayProducts(products) {
             productListContainer.appendChild(row);
         }
 
-        const productCard = createProductCard(product);
+        const productCard = createMainPageProductCard(product);
         row.appendChild(productCard);
     });
 
@@ -52,7 +101,6 @@ function displayProducts(products) {
 }
 
 function addAProduct() {
-
     const userRole = getCookie('userRole');
 
     if (userRole && userRole.toUpperCase() === 'ADMINISTRATOR') {
@@ -95,7 +143,6 @@ function addAProduct() {
                 formData.append("product-image", productImage);
 
                 const jwt = getCookie("jwt");
-
                 axios.post('http://localhost:8080/product', formData, {
                     headers: {
                         'Content-Type': 'multipart/mixed',

@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const city = document.getElementById("city").value;
             const country = document.getElementById("country").value;
 
-
             const checkoutBody = {
                 email: email,
                 firstName: firstName,
