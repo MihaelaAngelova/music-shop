@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Spotify integrated music shop based on your own taste!</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon"></span>o
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
@@ -10,22 +10,26 @@
           <a class="nav-link" href="index.html">All</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="category.html?id=0">T-Shirts</a>
+          <a class="nav-link" href="category.html?catId=0">T-Shirts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="category.html?id=1">Mugs</a>
+          <a class="nav-link" href="category.html?catId=1">Mugs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="category.html?id=2">CDs</a>
+          <a class="nav-link" href="category.html?catId=2">CDs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="category.html?id=3">Vinyls</a>
+          <a class="nav-link" href="category.html?catId=3">Vinyls</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
+      <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-success" id="searchButton" type="submit">Search</button>
       </form>
+
+      <div id="searchResults">
+        <!-- Display search results here -->
+      </div>
 
       <ul class="navbar-nav" style="margin-left: auto;">
         <li class="nav-item" style="margin-left: auto;">
@@ -47,3 +51,4 @@
   </div>
 </nav>
 <script src="js/scripts.js"></script>
+<script type="module" src="js/search.js"></script>

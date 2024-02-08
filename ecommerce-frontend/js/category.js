@@ -1,7 +1,7 @@
 import {displayProducts} from "./scripts.js";
 
 const urlParams = new URLSearchParams(location.search);
-const catId = urlParams.get("id");
+const catId = urlParams.get("catId");
 
 axios.get('http://localhost:8080/category/' + catId)
     .then(response => {

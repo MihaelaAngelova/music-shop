@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then(() => {
             const urlParams = new URLSearchParams(location.search);
-            const catId = urlParams.get("id");
+            const catId = urlParams.get("catId");
             setCurrentPageLink(catId);
             handleAuthenticationButtons();
             addLogoutListener();
@@ -20,7 +20,7 @@ function setCurrentPageLink(catId) {
 
     links.forEach(link => link.classList.remove('current'));
     if (catId !== null) {
-        const currentPageLink = document.querySelector(`.nav-link[href="category.html?id=${catId}"]`);
+        const currentPageLink = document.querySelector(`.nav-link[href="category.html?catId=${catId}"]`);
         if (currentPageLink) {
             currentPageLink.classList.add('current');
         }
