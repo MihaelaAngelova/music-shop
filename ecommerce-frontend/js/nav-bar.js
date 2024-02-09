@@ -24,7 +24,7 @@ function setCurrentPageLink(catId) {
         if (currentPageLink) {
             currentPageLink.classList.add('current');
         }
-    } else {
+    } else if(pageTitle !== null) {
         if (pageTitle.innerHTML === "Featured Products") {
             const homePageLink = document.querySelector('.nav-link[href="index.html"]');
             if (homePageLink) {
