@@ -83,13 +83,17 @@ public class ProductService {
         product.setPrice(productBody.getPrice());
         product.setType(productBody.getType());
         product.setQuantity(productBody.getQuantity());
-        product.setImagePath(product.getImagePath());
     }
 
-    public Optional<Product> editProduct(ProductBody productBody, int productID) {
+    public Optional<Product> editProduct(ProductBody productBody, int productID, MultipartFile image ) {
         return productDAO.findById((long)productID)
                 .map(product -> {
                     copyProductData(productBody, product);
+                    if(image != null && !image.isEmpty()) {
+                        saveImage(image);
+                        String imagePath = "images/" + image.getOriginalFilename();
+                        product.setImagePath(imagePath);
+                    }
                     return productDAO.save(product);
                 });
     }

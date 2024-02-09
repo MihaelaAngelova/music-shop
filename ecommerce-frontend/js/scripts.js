@@ -150,9 +150,8 @@ function addAProduct() {
                     }
                 })
                     .then(response => {
-                        console.log("Product added successfully:", response.data);
-
                         modal.hide();
+                        window.location.reload();
                     })
                     .catch(error => {
                         console.error("Error adding product:", error);

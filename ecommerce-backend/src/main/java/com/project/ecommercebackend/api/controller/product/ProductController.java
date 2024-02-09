@@ -51,15 +51,17 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/{id}")
-    ResponseEntity<Product> putProduct(@Valid @RequestBody ProductBody productBody,
-                                       @AuthenticationPrincipal LocalUser user, @PathVariable int id) {
+    @PutMapping(value = "/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    ResponseEntity<Product> putProduct(@Valid @RequestPart("product-data-json") ProductBody productBody,
+                                       @AuthenticationPrincipal LocalUser user,
+                                       @RequestPart(value = "product-image", required = false) MultipartFile image,
+                                       @PathVariable int id) {
         if(user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         UserRole userRole = user.getUserRole();
         if(userRole.equals(UserRole.ADMINISTRATOR)) {
-            Optional<Product> product = productService.editProduct(productBody, id);
+            Optional<Product> product = productService.editProduct(productBody, id, image);
             return product
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());

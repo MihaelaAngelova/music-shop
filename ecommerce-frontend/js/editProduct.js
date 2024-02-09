@@ -46,7 +46,6 @@ function editAProduct() {
             const productType = stringToInt(document.getElementById("editProductType").value);
             const productQuantity = document.getElementById("editProductQuantity").value;
             const newImageFile = document.getElementById("editProductImage");
-            const currentImageFile = document.getElementById("currentProductImage");
 
             const productDataObject = {
                 name: productName,
@@ -63,10 +62,8 @@ function editAProduct() {
 
             const formData = new FormData();
             formData.append("product-data-json", productBlob);
-            if (newImageFile) {
-                formData.append("product-image", newImageFile);
-            } else {
-                formData.append("product-image", currentImageFile);
+            if (newImageFile.files.length > 0) {
+                formData.append("product-image", newImageFile.files[0]);
             }
 
             const jwt = getCookie("jwt");
@@ -78,6 +75,7 @@ function editAProduct() {
             })
                 .then(response => {
                     modal.hide();
+                    window.location.reload();
                 })
                 .catch(error => {
                     console.error("Error editing product:", error);
