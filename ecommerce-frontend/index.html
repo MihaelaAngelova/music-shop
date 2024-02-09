@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="js/scripts.js"></script>
 </head>
 <body>
 <script src="js/nav-bar.js" defer></script>
@@ -25,7 +26,7 @@
 <script defer src="js/bootstrap.bundle.min.js"></script>
 <script defer src="js/DOMFunctions.js"></script>
 <script type="module" src="js/index.js"></script>
-<script type="module" src="js/scripts.js"></script>
+<script type="module" src="js/search.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -34,7 +35,7 @@
         modalRequest.onload = function () {
             modalContainer.innerHTML = this.responseText;
         };
-        modalRequest.open('get', 'productModal.html', true);
+        modalRequest.open('get', 'addProductModal.html', true);
         modalRequest.send();
     });
 </script>

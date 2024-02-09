@@ -32,7 +32,6 @@ function displayProductDetails(product) {
         </div>
     `;
 
-
     productDetailsContainer.innerHTML = productHTML;
 }
 

@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="css/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
-<body>
 
+<body>
 <script src="js/nav-bar.js" defer></script>
 
 <div class="container mt-4">
@@ -37,7 +37,7 @@
     modalRequest.onload = function () {
       modalContainer.innerHTML = this.responseText;
     };
-    modalRequest.open('get', 'productModal.html', true);
+    modalRequest.open('get', 'addProductModal.html', true);
     modalRequest.send();
   });
 </script>

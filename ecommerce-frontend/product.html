@@ -12,11 +12,34 @@
 
 <body>
     <div id="productDetails"></div>
+
+    <div class="mb-4 btn-success">
+        <button class="btn btn-success" id="editAProductButton" type="button" style="margin-left: 1200px;display: none;">Edit a product</button>
+    </div>
+
+    <div id="editProductForm"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modalContainer = document.getElementById('editProductForm');
+            const modalRequest = new XMLHttpRequest();
+            modalRequest.onload = function () {
+                modalContainer.innerHTML = this.responseText;
+            };
+            modalRequest.open('get', 'editProductModal.html', true);
+            modalRequest.send();
+        });
+    </script>
+
+
+    <div id="deleteProduct"></div>
+
     <script src="js/nav-bar.js" defer></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script defer src="js/DOMFunctions.js"></script>
     <script src="js/productPage.js"></script>
     <script type="module" src="js/scripts.js"></script>
+    <script type="module" src="js/editProduct.js"></script>
 </body>
 
 </html>
