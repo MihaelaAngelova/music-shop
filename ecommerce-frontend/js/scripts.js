@@ -113,8 +113,6 @@ function addAProduct() {
         const saveChangesButton = document.getElementById("saveProduct");
         saveChangesButton.addEventListener("click", saveChangesButtonClickHandler);
         function saveChangesButtonClickHandler() {
-            console.log("Save Changes button clicked!");
-
             const productName = document.getElementById("productName").value;
             const productDescription = document.getElementById("productDescription").value;
             const productPrice = document.getElementById("productPrice").value;
@@ -172,12 +170,4 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-// function setAuthHeaders() {
-//     const jwt = getCookie("jwt");
-//     if (jwt === undefined) {
-//         axios.default.withCredentials = true;
-//     } else {
-//         axios.default.headers.common["Authorization"] = `Bearer ${jwt}`;
-//     }
-// }
 export {displayProducts, getCookie}

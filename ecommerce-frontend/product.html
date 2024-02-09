@@ -13,26 +13,39 @@
 <body>
     <div id="productDetails"></div>
 
-    <div class="mb-4 btn-success">
-        <button class="btn btn-success" id="editAProductButton" type="button" style="margin-left: 1200px;display: none;">Edit a product</button>
+    <!--edit and delete button-->
+    <div class="row mx-1 pb-3">
+        <div class="col">
+            <button class="btn btn-success" id="editAProductButton" type="button" style="display: none;">Edit a product</button>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-danger" id="deleteAProductButton" type="button" style="display: none;">Delete a product</button>
+        </div>
     </div>
-
     <div id="editProductForm"></div>
-
+    <div id="deleteProductForm"></div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const modalContainer = document.getElementById('editProductForm');
-            const modalRequest = new XMLHttpRequest();
-            modalRequest.onload = function () {
-                modalContainer.innerHTML = this.responseText;
+
+            // edit button
+            const editModalContainer = document.getElementById('editProductForm');
+            const editModalRequest = new XMLHttpRequest();
+            editModalRequest.onload = function () {
+                editModalContainer.innerHTML = this.responseText;
             };
-            modalRequest.open('get', 'editProductModal.html', true);
-            modalRequest.send();
+            editModalRequest.open('get', 'editProductModal.html', true);
+            editModalRequest.send();
+
+            // delete button
+            const deleteModalContainer = document.getElementById('deleteProductForm');
+            const deleteModalRequest = new XMLHttpRequest();
+            deleteModalRequest.onload = function () {
+                deleteModalContainer.innerHTML = this.responseText;
+            };
+            deleteModalRequest.open('get', 'deleteProductModal.html', true);
+            deleteModalRequest.send();
         });
     </script>
-
-
-    <div id="deleteProduct"></div>
 
     <script src="js/nav-bar.js" defer></script>
     <script src="js/bootstrap.bundle.min.js"></script>
@@ -40,6 +53,7 @@
     <script src="js/productPage.js"></script>
     <script type="module" src="js/scripts.js"></script>
     <script type="module" src="js/editProduct.js"></script>
+    <script type="module" src="js/deleteProduct.js"></script>
 </body>
 
 </html>

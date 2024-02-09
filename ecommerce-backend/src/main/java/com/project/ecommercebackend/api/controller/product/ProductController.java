@@ -20,7 +20,6 @@ import java.util.Optional;
 @RequestMapping("/product")
 @CrossOrigin(origins = "http://localhost:63342", allowCredentials = "true")
 public class ProductController {
-
     private ProductService productService;
 
     public ProductController(ProductService productService) {

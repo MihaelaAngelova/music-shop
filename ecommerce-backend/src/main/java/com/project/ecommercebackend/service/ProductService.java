@@ -85,7 +85,7 @@ public class ProductService {
         product.setQuantity(productBody.getQuantity());
     }
 
-    public Optional<Product> editProduct(ProductBody productBody, int productID, MultipartFile image ) {
+    public Optional<Product> editProduct(ProductBody productBody, int productID, MultipartFile image) {
         return productDAO.findById((long)productID)
                 .map(product -> {
                     copyProductData(productBody, product);
@@ -98,8 +98,20 @@ public class ProductService {
                 });
     }
 
-    public void deleteProduct(int productID) {
-        productDAO.deleteById((long)productID);
+    public void deleteProduct(long productID) {
+        deleteImageFromFolder(productID);
+        productDAO.deleteById(productID);
+    }
+
+    public void deleteImageFromFolder(long productID) {
+        try {
+            // the path of the image starts with 'images/'
+            final String imagePath = "/Users/mishi/Desktop/ecommerce/ecommerce-frontend/" +
+                    productDAO.findById(productID).get().getImagePath();
+            Files.delete(Paths.get(imagePath));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to delete image", e);
+        }
     }
 
     public boolean decreaseQuantity(Long productId, int quantity) {
