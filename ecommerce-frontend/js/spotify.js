@@ -1,28 +1,46 @@
-import { clientId, clientSecret } from './spotifyConfidential.js';
-
-function authorizeSpotify() {
-    const redirectUri = "http://localhost:63342/ecommerce/ecommerce-frontend/index.html";
-    const scopes = 'user-read-private user-read-email user-follow-read';
-    const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(scopes)}`;
-    window.location.href = authUrl;
-
+// code verifier
+const generateRandomString = (length) => {
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const values = crypto.getRandomValues(new Uint8Array(length));
+    return values.reduce((acc, x) => acc + possible[x % possible.length], "");
 }
-document.addEventListener('DOMContentLoaded', function () {
-    const spotifyLoginButton = document.getElementById('spotifyLoginButton');
-    spotifyLoginButton.addEventListener('click', authorizeSpotify);
-});
 
-//
-// // After the user is redirected back with an authorization code
-// const authorizationCode = 'AUTHORIZATION_CODE'; // Retrieve this from the redirect URI
-//
-// axios.post('https://accounts.spotify.com/api/token', {
-//     grant_type: 'authorization_code',
-//     code: authorizationCode,
-//     redirect_uri: redirectUri,
-//     client_id: clientId,
-//     client_secret: clientSecret
-// }).then(response => {
-//     const accessToken = response.data.access_token;
-//     // Use the access token for subsequent requests to the Spotify API
-// }).catch(error => console.error(error));
+const codeVerifier  = generateRandomString(64);
+
+// code challenge
+const sha256 = async (plain) => {
+    const encoder = new TextEncoder()
+    const data = encoder.encode(plain)
+    return window.crypto.subtle.digest('SHA-256', data)
+}
+
+const base64encode = (input) => {
+    return btoa(String.fromCharCode(...new Uint8Array(input)))
+        .replace(/=/g, '')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_');
+}
+
+const hashed = await sha256(codeVerifier)
+const codeChallenge = base64encode(hashed);
+
+const clientId = 'your-client-id';
+const redirectUri = 'http://localhost:63342/ecommerce/ecommerce-frontend/index.html';
+
+const scope = 'user-read-private user-read-email user-follow-read user-library-read';
+const authUrl = new URL("https://accounts.spotify.com/authorize")
+
+// generated in the previous step
+window.localStorage.setItem('code_verifier', codeVerifier);
+
+const params =  {
+    response_type: 'code',
+    client_id: clientId,
+    scope: scope,
+    code_challenge_method: 'S256',
+    code_challenge: codeChallenge,
+    redirect_uri: redirectUri,
+}
+
+authUrl.search = new URLSearchParams(params).toString();
+window.location.href = authUrl.toString();

@@ -69,6 +69,41 @@ function navigateToProductDetails(productId) {
     window.location.href = `product.html?id=${productId}`;
 }
 
+function getFollowedArtists(token, after = null, allArtists = []) {
+    const limit = 50; // Maximum limit per request
+    const url = after ?
+        `https://api.spotify.com/v1/me/following?type=artist&limit=${limit}&after=${after}` :
+        `https://api.spotify.com/v1/me/following?type=artist&limit=${limit}`;
+
+    return axios.get(url, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(response => {
+        const artists = response.data.artists;
+        const nextAfter = artists.cursors && artists.cursors.after;
+        const allArtistsSoFar = [...allArtists, ...artists.items.map(artist => artist.name)];
+
+        return nextAfter ? getFollowedArtists(token, nextAfter, allArtistsSoFar) : allArtistsSoFar;
+    });
+}
+
+function displayFilteredProducts(products, token) {
+    getFollowedArtists(token)
+        .then(artistNames => {
+            const filteredProducts =
+            products.filter(p => artistNames
+                    .map(artistName => artistName.toLowerCase())
+                    .some(artistName => p.description.toLowerCase().includes(artistName)
+                        || p.name.toLowerCase().includes(artistName))
+            );
+            displayProducts(filteredProducts);
+        })
+        .catch(function (error) {
+            console.error("Error fetching products:", error);
+        });
+}
+
 function displayProducts(products) {
     const productListContainer = document.getElementById('productList');
     productListContainer.innerHTML = '';
@@ -170,4 +205,4 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-export {displayProducts, getCookie}
+export {displayProducts, getCookie, displayFilteredProducts}
