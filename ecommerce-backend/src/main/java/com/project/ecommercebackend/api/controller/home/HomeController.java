@@ -1,7 +1,8 @@
 package com.project.ecommercebackend.api.controller.home;
 
 import com.project.ecommercebackend.model.Product;
-import com.project.ecommercebackend.service.ProductService;
+import com.project.ecommercebackend.service.interfaces.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +15,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class HomeController {
 
-    private ProductService productService;
-
-    public HomeController(ProductService productService) {
-        this.productService = productService;
-    }
+    @Autowired
+    ProductService productService;
 
     @GetMapping
     public List<Product> homepage() {

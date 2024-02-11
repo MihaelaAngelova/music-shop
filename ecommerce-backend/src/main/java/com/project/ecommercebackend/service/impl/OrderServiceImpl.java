@@ -1,11 +1,13 @@
-package com.project.ecommercebackend.service;
+package com.project.ecommercebackend.service.impl;
 
 import com.project.ecommercebackend.api.model.CartItem;
 import com.project.ecommercebackend.model.*;
 import com.project.ecommercebackend.model.dao.AddressDAO;
 import com.project.ecommercebackend.model.dao.ProductDAO;
 import com.project.ecommercebackend.model.dao.WebOrderDAO;
+import com.project.ecommercebackend.service.interfaces.OrderService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,18 +15,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderService {
-    private WebOrderDAO webOrderDAO;
-    private AddressDAO addressDAO;
-    private ProductDAO productDAO;
+public class OrderServiceImpl implements OrderService {
 
-    public OrderService(WebOrderDAO webOrderDAO, AddressDAO addressDAO, ProductDAO productDAO) {
-        this.webOrderDAO = webOrderDAO;
-        this.addressDAO = addressDAO;
-        this.productDAO = productDAO;
-    }
+    // DAO interfaces
+    @Autowired
+    WebOrderDAO webOrderDAO;
+    @Autowired
+    AddressDAO addressDAO;
+    @Autowired
+    ProductDAO productDAO;
 
-    public List<OrderElement> convert(List<CartItem> productQuantityPairList) {
+    @Override public List<OrderElement> convert(List<CartItem> productQuantityPairList) {
         return productQuantityPairList.stream().map(productQuantityPair -> {
             Long id = productQuantityPair.getProduct().getId();
             Optional<Product> productMaybe = productDAO.findById(id);
@@ -39,7 +40,7 @@ public class OrderService {
         }).collect(Collectors.toList());
     }
 
-    @Transactional
+    @Override@Transactional
     public WebOrder saveOrder(String email, String firstName, String lastName, String phoneNumber, Address address, List<CartItem> cart) {
         Address savedAddress = addressDAO.save(address);
         WebOrder order = new WebOrder();

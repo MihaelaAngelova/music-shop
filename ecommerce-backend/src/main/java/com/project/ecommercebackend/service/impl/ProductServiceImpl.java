@@ -1,10 +1,11 @@
-package com.project.ecommercebackend.service;
+package com.project.ecommercebackend.service.impl;
 
 import com.project.ecommercebackend.api.model.ProductBody;
-import com.project.ecommercebackend.model.LocalUser;
 import com.project.ecommercebackend.model.Product;
 import com.project.ecommercebackend.model.ProductType;
 import com.project.ecommercebackend.model.dao.ProductDAO;
+import com.project.ecommercebackend.service.interfaces.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,27 +14,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductService {
+public class ProductServiceImpl implements ProductService {
 
-    @Value("${upload.directory}")
-    private String uploadDirectory;
+    // DAO interface
+    @Autowired
+    ProductDAO productDAO;
 
-    private ProductDAO productDAO;
-
-    public ProductService(ProductDAO productDAO) {
-        this.productDAO = productDAO;
-    }
-
-    public List<Product> getProducts() {
+    @Override public List<Product> getProducts() {
         return productDAO.findAll();
     }
 
-    public List<Product> getProductsByType(ProductType productType) {
+    @Override public List<Product> getProductsByType(ProductType productType) {
         return productDAO
                 .findAll()
                 .stream()
@@ -41,7 +36,7 @@ public class ProductService {
                 .toList();
     }
 
-    public List<Product> searchProducts(String input) {
+    @Override public List<Product> searchProducts(String input) {
         return productDAO
                 .findAll()
                 .stream()
@@ -51,11 +46,11 @@ public class ProductService {
                 .toList();
     }
 
-    public Optional<Product> getProduct(Long id) {
+    @Override public Optional<Product> getProduct(Long id) {
         return productDAO.findById(id);
     }
 
-    public Product createProduct(ProductBody productBody, MultipartFile image) {
+    @Override public Product createProduct(ProductBody productBody, MultipartFile image) {
         Product product = new Product();
         copyProductData(productBody, product);
 
@@ -85,7 +80,7 @@ public class ProductService {
         product.setQuantity(productBody.getQuantity());
     }
 
-    public Optional<Product> editProduct(ProductBody productBody, int productID, MultipartFile image) {
+    @Override public Optional<Product> editProduct(ProductBody productBody, int productID, MultipartFile image) {
         return productDAO.findById((long)productID)
                 .map(product -> {
                     copyProductData(productBody, product);
@@ -98,12 +93,12 @@ public class ProductService {
                 });
     }
 
-    public void deleteProduct(long productID) {
+    @Override public void deleteProduct(long productID) {
         deleteImageFromFolder(productID);
         productDAO.deleteById(productID);
     }
 
-    public void deleteImageFromFolder(long productID) {
+    @Override public void deleteImageFromFolder(long productID) {
         try {
             // the path of the image starts with 'images/'
             final String imagePath = "/Users/mishi/Desktop/ecommerce/ecommerce-frontend/" +
@@ -114,7 +109,7 @@ public class ProductService {
         }
     }
 
-    public boolean decreaseQuantity(Long productId, int quantity) {
+    @Override public boolean decreaseQuantity(Long productId, int quantity) {
         return productDAO.findById((long)productId)
                 .map(p -> p.getQuantity() - quantity >= 0)
                 .orElse(false);

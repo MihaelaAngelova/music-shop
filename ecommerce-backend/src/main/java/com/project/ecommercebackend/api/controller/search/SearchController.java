@@ -1,7 +1,8 @@
 package com.project.ecommercebackend.api.controller.search;
 
 import com.project.ecommercebackend.model.Product;
-import com.project.ecommercebackend.service.ProductService;
+import com.project.ecommercebackend.service.interfaces.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,11 +12,8 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:63342", allowCredentials = "true")
 public class SearchController {
 
-    private ProductService productService;
-
-    public SearchController(ProductService productService) {
-        this.productService = productService;
-    }
+    @Autowired
+    ProductService productService;
 
     @GetMapping("/{input}")
     public List<Product> search(@PathVariable String input) {
