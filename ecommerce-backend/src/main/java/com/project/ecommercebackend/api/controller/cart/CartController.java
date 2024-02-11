@@ -88,7 +88,7 @@ public class CartController {
     @PostMapping("/payment")
     public ResponseEntity<WebOrder> payment(@AuthenticationPrincipal LocalUser user,
                                             HttpSession session,
-                                            @RequestBody GuestBody guestBody) {
+                                            @RequestBody(required = false) GuestBody guestBody) {
         String email;
         Address address;
         String phoneNumber;

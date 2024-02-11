@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 city: city,
                 country: country
             }
+
             axios.defaults.withCredentials = true;
             axios.post("http://localhost:8080/cart/payment", checkoutBody)
                 .then(response => {
@@ -34,9 +35,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const checkoutButton = document.getElementById("checkoutButton");
         checkoutButton.addEventListener("click", function (event) {
             axios.defaults.withCredentials = true;
-            axios.post("http://localhost:8080/cart/payment").then(response => {
-                window.location.href = "successfulOrderScreen.html";
-            }).catch(error => console.error(error))
+            axios.post("http://localhost:8080/cart/payment", {}, {
+                headers: {
+                    'Authorization': `Bearer ${jwt}`
+                }
+            })
+                .then(response => {
+                    window.location.href = "successfulOrderScreen.html";
+                }).catch(error => console.error(error))
         })
     }
 
