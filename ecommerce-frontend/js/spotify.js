@@ -1,3 +1,33 @@
+import {clientId} from "./secret.js";
+document.addEventListener('DOMContentLoaded', function () {
+    const spotifyLoginButton = document.getElementById("spotifyLoginButton");
+    spotifyLoginButton.addEventListener("click", async function() {
+        const hashed = await sha256(codeVerifier)
+        const codeChallenge = base64encode(hashed);
+        const redirectUri = 'http://localhost:63342/ecommerce/ecommerce-frontend/index.html';
+
+        const scope = 'user-read-private user-read-email user-follow-read user-library-read';
+        const authUrl = new URL("https://accounts.spotify.com/authorize")
+
+// generated in the previous step
+        window.localStorage.setItem('code_verifier', codeVerifier);
+
+        const params =  {
+            response_type: 'code',
+            client_id: clientId,
+            scope: scope,
+            code_challenge_method: 'S256',
+            code_challenge: codeChallenge,
+            redirect_uri: redirectUri,
+        }
+
+        authUrl.search = new URLSearchParams(params).toString();
+        window.location.href = authUrl.toString();
+
+    })
+})
+
+
 // code verifier
 const generateRandomString = (length) => {
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -20,27 +50,3 @@ const base64encode = (input) => {
         .replace(/\+/g, '-')
         .replace(/\//g, '_');
 }
-
-const hashed = await sha256(codeVerifier)
-const codeChallenge = base64encode(hashed);
-
-const clientId = 'your-client-id';
-const redirectUri = 'http://localhost:63342/ecommerce/ecommerce-frontend/index.html';
-
-const scope = 'user-read-private user-read-email user-follow-read user-library-read';
-const authUrl = new URL("https://accounts.spotify.com/authorize")
-
-// generated in the previous step
-window.localStorage.setItem('code_verifier', codeVerifier);
-
-const params =  {
-    response_type: 'code',
-    client_id: clientId,
-    scope: scope,
-    code_challenge_method: 'S256',
-    code_challenge: codeChallenge,
-    redirect_uri: redirectUri,
-}
-
-authUrl.search = new URLSearchParams(params).toString();
-window.location.href = authUrl.toString();

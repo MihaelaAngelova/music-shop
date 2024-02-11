@@ -1,4 +1,5 @@
 import {displayProducts, displayFilteredProducts} from "./scripts.js";
+import {clientId} from "./secret.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
@@ -43,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-const clientId = 'your-client-id';
 const redirectUri = 'http://localhost:63342/ecommerce/ecommerce-frontend/index.html';
 
 function getTokenPromise(code, codeVerifier) {
