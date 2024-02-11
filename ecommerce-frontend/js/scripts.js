@@ -99,8 +99,10 @@ function displayFilteredProducts(products, token) {
             );
             displayProducts(filteredProducts);
         })
-        .catch(function (error) {
-            console.error("Error fetching products:", error);
+        .catch(error => {
+            localStorage.removeItem('spotify_access_token');
+            console.error("Error fetching products (most probably the access token is expired):", error);
+            window.location.reload();
         });
 }
 

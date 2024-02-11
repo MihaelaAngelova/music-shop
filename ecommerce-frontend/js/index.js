@@ -7,14 +7,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const spotifyAccessToken = localStorage.getItem('spotify_access_token');
 
     if (spotifyAccessToken !== null) {
-
         axios.get("http://localhost:8080/home")
             .then(response => {
                 displayFilteredProducts(response.data, spotifyAccessToken);
             })
             .catch(error => {
                 localStorage.removeItem('spotify_access_token');
-                console.error("Error fetching products:", error);
+                console.error("Error fetching products (most probably the access token is expired):", error);
+                window.location.reload();
             })
     } else if(code !== null && codeVerifier !== null) { // if there is spotify redirection
         let products = [];
