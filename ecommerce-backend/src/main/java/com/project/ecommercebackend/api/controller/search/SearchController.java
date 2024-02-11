@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/search")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:63342", allowCredentials = "true")
 public class SearchController {
 
     private ProductService productService;

@@ -10,9 +10,28 @@ document.addEventListener("DOMContentLoaded", function() {
             setCurrentPageLink(catId);
             handleAuthenticationButtons();
             addLogoutListener();
+            addSearchListeners();
+
         })
         .catch(error => console.error("Error fetching navbar:", error));
 });
+
+function addSearchListeners() {
+    const searchButton = document.getElementById("searchButton");
+    const searchInput = document.getElementById("searchField");
+
+    searchButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.location.href = `search.html?query=${searchInput.value}`;
+    });
+
+    searchInput.addEventListener("keyup", function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            window.location.href = `search.html?query=${searchInput.value}`;
+        }
+    });
+}
 
 function setCurrentPageLink(catId) {
     const pageTitle = document.getElementById("pageTitle");
