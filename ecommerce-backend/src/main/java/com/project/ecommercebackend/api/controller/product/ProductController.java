@@ -4,9 +4,9 @@ import com.project.ecommercebackend.api.model.ProductBody;
 import com.project.ecommercebackend.model.LocalUser;
 import com.project.ecommercebackend.model.Product;
 import com.project.ecommercebackend.model.UserRole;
-import com.project.ecommercebackend.service.ProductService;
-import com.project.ecommercebackend.service.UserService;
+import com.project.ecommercebackend.service.interfaces.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +20,9 @@ import java.util.Optional;
 @RequestMapping("/product")
 @CrossOrigin(origins = "http://localhost:63342", allowCredentials = "true")
 public class ProductController {
-    private ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    @Autowired
+    ProductService productService;
 
     @GetMapping("/{id}")
     ResponseEntity<Product> getProduct(@PathVariable Long id) {

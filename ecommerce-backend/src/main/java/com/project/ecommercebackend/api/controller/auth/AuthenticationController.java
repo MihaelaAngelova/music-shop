@@ -5,8 +5,9 @@ import com.project.ecommercebackend.api.model.LoginResponse;
 import com.project.ecommercebackend.api.model.RegistrationBody;
 import com.project.ecommercebackend.exception.UserAlreadyExistsException;
 import com.project.ecommercebackend.model.LocalUser;
-import com.project.ecommercebackend.service.UserService;
+import com.project.ecommercebackend.service.interfaces.UserService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,11 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class AuthenticationController {
 
-    private UserService userService;
-
-    public AuthenticationController(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity registerUser(@Valid @RequestBody RegistrationBody registrationBody) {

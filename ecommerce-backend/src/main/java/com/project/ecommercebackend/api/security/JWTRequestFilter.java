@@ -3,7 +3,7 @@ package com.project.ecommercebackend.api.security;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.project.ecommercebackend.model.LocalUser;
 import com.project.ecommercebackend.model.dao.LocalUserDAO;
-import com.project.ecommercebackend.service.JWTService;
+import com.project.ecommercebackend.service.interfaces.JWTService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

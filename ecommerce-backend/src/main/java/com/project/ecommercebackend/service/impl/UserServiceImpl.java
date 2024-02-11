@@ -1,5 +1,4 @@
-package com.project.ecommercebackend.service;
-
+package com.project.ecommercebackend.service.impl;
 import com.project.ecommercebackend.api.model.LoginBody;
 import com.project.ecommercebackend.api.model.RegistrationBody;
 import com.project.ecommercebackend.exception.UserAlreadyExistsException;
@@ -8,28 +7,31 @@ import com.project.ecommercebackend.model.LocalUser;
 import com.project.ecommercebackend.model.UserRole;
 import com.project.ecommercebackend.model.dao.AddressDAO;
 import com.project.ecommercebackend.model.dao.LocalUserDAO;
+import com.project.ecommercebackend.service.interfaces.UserService;
+import com.project.ecommercebackend.service.interfaces.EncryptionService;
+import com.project.ecommercebackend.service.interfaces.JWTService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
 
-    private LocalUserDAO localUserDAO;
-    private EncryptionService encryptionService;
-    private JWTService jwtService;
+    // service interfaces
+    @Autowired
+    EncryptionService encryptionService;
+    @Autowired
+    JWTService jwtService;
 
-    private AddressDAO addressDAO;
+    // DAO interfaces
+    @Autowired
+    AddressDAO addressDAO;
+    @Autowired
+    LocalUserDAO localUserDAO;
 
-    public UserService(LocalUserDAO localUserDAO, EncryptionService encryptionService, JWTService jwtService, AddressDAO addressDAO) {
-        this.localUserDAO = localUserDAO;
-        this.encryptionService = encryptionService;
-        this.jwtService = jwtService;
-        this.addressDAO = addressDAO;
-    }
-
-    @Transactional
+    @Override@Transactional
     public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException {
         if (localUserDAO.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException();
@@ -51,7 +53,7 @@ public class UserService {
         return localUserDAO.save(user);
     }
 
-    public String loginUser(LoginBody loginBody) {
+    @Override public String loginUser(LoginBody loginBody) {
         Optional<LocalUser> opUser = localUserDAO.findByEmailIgnoreCase(loginBody.getEmail());
         if(opUser.isPresent()) {
             LocalUser user = opUser.get();
@@ -62,12 +64,9 @@ public class UserService {
         return null;
     }
 
-    public UserRole getUserRole(String jwt) {
+    @Override public UserRole getUserRole(String jwt) {
         String email = jwtService.getEmail(jwt);
         Optional<LocalUser> opUser = localUserDAO.findByEmailIgnoreCase(email);
-        if(opUser.isPresent()) {
-            return opUser.get().getUserRole();
-        }
-        return null;
+        return opUser.map(LocalUser::getUserRole).orElse(null);
     }
 }

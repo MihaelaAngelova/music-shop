@@ -7,9 +7,10 @@ import com.project.ecommercebackend.model.Address;
 import com.project.ecommercebackend.model.LocalUser;
 import com.project.ecommercebackend.model.Product;
 import com.project.ecommercebackend.model.WebOrder;
-import com.project.ecommercebackend.service.OrderService;
-import com.project.ecommercebackend.service.ProductService;
+import com.project.ecommercebackend.service.interfaces.OrderService;
+import com.project.ecommercebackend.service.interfaces.ProductService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,13 +26,12 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:63342", allowCredentials = "true")
 public class CartController {
     private final static String CART = "Cart";
-    private ProductService productService;
-    private OrderService orderService;
 
-    public CartController(ProductService productService, OrderService orderService) {
-        this.productService = productService;
-        this.orderService = orderService;
-    }
+    @Autowired
+    ProductService productService;
+
+    @Autowired
+    OrderService orderService;
 
     @PostMapping("/add")
     public ResponseEntity postAddToCart(@RequestBody ProductQuantityBody productQuantityBody, HttpSession session) {

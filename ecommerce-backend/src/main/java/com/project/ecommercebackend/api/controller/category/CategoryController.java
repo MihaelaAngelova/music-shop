@@ -2,7 +2,8 @@ package com.project.ecommercebackend.api.controller.category;
 
 import com.project.ecommercebackend.model.Product;
 import com.project.ecommercebackend.model.ProductType;
-import com.project.ecommercebackend.service.ProductService;
+import com.project.ecommercebackend.service.interfaces.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,9 @@ import java.util.List;
 @RequestMapping("/category")
 @CrossOrigin(origins = "*")
 public class CategoryController {
-    private ProductService productService;
 
-    public CategoryController(ProductService productService) {
-        this.productService = productService;
-    }
+    @Autowired
+    ProductService productService;
 
     @GetMapping("/{type}")
     public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable int type) {
