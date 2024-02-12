@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface OrderService {
     List<OrderElement> convert(List<CartItem> productQuantityPairList);
+
+    List<WebOrder> getOrdersByEmail(String email);
     @Transactional
     WebOrder saveOrder(String email, String firstName, String lastName, String phoneNumber, Address address, List<CartItem> cart);
 }

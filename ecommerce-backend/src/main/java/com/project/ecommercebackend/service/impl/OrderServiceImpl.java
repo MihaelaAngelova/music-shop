@@ -2,9 +2,7 @@ package com.project.ecommercebackend.service.impl;
 
 import com.project.ecommercebackend.api.model.CartItem;
 import com.project.ecommercebackend.model.*;
-import com.project.ecommercebackend.model.dao.AddressDAO;
-import com.project.ecommercebackend.model.dao.ProductDAO;
-import com.project.ecommercebackend.model.dao.WebOrderDAO;
+import com.project.ecommercebackend.model.dao.*;
 import com.project.ecommercebackend.service.interfaces.OrderService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +36,10 @@ public class OrderServiceImpl implements OrderService {
             webOrderQuantities.setQuantity(productQuantityPair.getQuantity());
             return webOrderQuantities;
         }).collect(Collectors.toList());
+    }
+
+    public List<WebOrder> getOrdersByEmail(String email) {
+        return webOrderDAO.findByEmail(email);
     }
 
     @Override@Transactional

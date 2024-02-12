@@ -50,6 +50,13 @@ body {
     font-size: 23px;
 }
 
+.order-cell {
+    border: 1px solid #92aa83;
+    background-color: #e0edc5;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 8px;
+}
 
 
 
